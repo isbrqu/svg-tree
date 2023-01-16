@@ -4,16 +4,15 @@ import org.w3c.dom.Element;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
+import svgtree.Proportion;
 
 public class TagCreator {
 
-  private static final float RADIO = .5f;
-  private static final float DIAMETER = 2 * RADIO;
-  private static final float HALF = RADIO / 2;
-  private static final int HEIGHT = 3;
-  private static final float FONT_SIZE = RADIO + HALF;
-
   private static final String SVG = "http://www.w3.org/2000/svg";
+  private static final String FONT_SIZE
+    = Float.toString(Proportion.RADIO + Proportion.HALF);
+  private static final String STROKE_WIDTH
+    = Float.toString(Proportion.HALF / 2);
   private static TagCreator instance;
 
   private Document document;
@@ -70,8 +69,8 @@ public class TagCreator {
     Element text = createElementNS("text");
     text.setTextContent(Integer.toString(num));
     text.setAttribute("x", Float.toString(cx));
-    text.setAttribute("y", Float.toString(cy + HALF));
-    text.setAttribute("font-size", Float.toString(FONT_SIZE));
+    text.setAttribute("y", Float.toString(cy + Proportion.HALF));
+    text.setAttribute("font-size", FONT_SIZE);
     text.setAttribute("fill", "#000");
     text.setAttribute("text-anchor", "middle");
     // text.setAttribute("alignment-baseline", "middle");
@@ -86,7 +85,7 @@ public class TagCreator {
     line.setAttribute("x2", Float.toString(x2));
     line.setAttribute("y2", Float.toString(y2));
     line.setAttribute("stroke", "#fff");
-    line.setAttribute("stroke-width", Float.toString(HALF / 2));
+    line.setAttribute("stroke-width", STROKE_WIDTH);
     return line;
   }
 

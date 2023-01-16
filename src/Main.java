@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 import java.lang.Math;
 import java.util.HashMap;
 import java.util.Arrays;
+import svgtree.CreatorTag;
 
 public class Main {
 
@@ -27,10 +28,7 @@ public class Main {
   public static void
   main(String[] args) {
     try {
-      doc = DocumentBuilderFactory
-        .newInstance()
-        .newDocumentBuilder()
-        .newDocument();
+      doc = CreatorTag.getInstance().getDocument();
       createSvg();
       createTree();
       float x = (float) Math.pow(2, HEIGHT + 1) * RADIO;
@@ -85,6 +83,19 @@ public class Main {
     return circle;
   }
 
+  public static Element
+  createLine(float x1, float y1, float x2, float y2) {
+    Element line = doc.createElementNS(SVG, "line");
+    line.setAttribute("x1", Float.toString(x1));
+    line.setAttribute("y1", Float.toString(y1));
+    line.setAttribute("x2", Float.toString(x2));
+    line.setAttribute("y2", Float.toString(y2));
+    line.setAttribute("stroke", "#fff");
+    line.setAttribute("stroke-width", Float.toString(HALF / 2));
+    return line;
+  }
+
+
   private static Element
   createText(float cx, float cy, int num) {
     String color = "#000";
@@ -103,7 +114,7 @@ public class Main {
   private static void
   draw(int height, float x, float y) {
     String color = "#fff";
-    Element root = createCircle(x, y, RADIO, color);
+    Element root = CreatorTag.createCircle(x, y, RADIO, color);
     System.out.println("height: " + height);
     Element text = createText(x, y, height);
     tree.appendChild(root);
@@ -153,7 +164,7 @@ public class Main {
     return result;
   }
 
-  private static HashMap
+  private static HashMap<String,Float>
   calculateCoordinates(float height, float x2, float y2) {
     HashMap<String,Float> coordinates
       = new HashMap<String,Float>();
@@ -166,18 +177,6 @@ public class Main {
     coordinates.put("cx", x1);
     coordinates.put("cy", y1);
     return coordinates;
-  }
-
-  public static Element
-  createLine(float x1, float y1, float x2, float y2) {
-    Element line = doc.createElementNS(SVG, "line");
-    line.setAttribute("x1", Float.toString(x1));
-    line.setAttribute("y1", Float.toString(y1));
-    line.setAttribute("x2", Float.toString(x2));
-    line.setAttribute("y2", Float.toString(y2));
-    line.setAttribute("stroke", "#fff");
-    line.setAttribute("stroke-width", Float.toString(HALF / 2));
-    return line;
   }
 
 }

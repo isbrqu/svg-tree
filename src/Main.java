@@ -85,28 +85,12 @@ public class Main {
     return line;
   }
 
-
-  private static Element
-  createText(float cx, float cy, int num) {
-    String color = "#000";
-    String fontSize = Float.toString(RADIO + RADIO / 2);
-    Element text = doc.createElementNS(SVG, "text");
-    text.setTextContent(Integer.toString(num));
-    text.setAttribute("x", Float.toString(cx));
-    text.setAttribute("y", Float.toString(cy + RADIO / 2 ));
-    text.setAttribute("text-anchor", "middle");
-    // text.setAttribute("alignment-baseline", "middle");
-    text.setAttribute("font-size", fontSize);
-    text.setAttribute("fill", color);
-    return text;
-  }
-
   private static void
   draw(int height, float x, float y) {
     String color = "#fff";
     Element root = TagCreator.createCircle(x, y, RADIO, color);
     System.out.println("height: " + height);
-    Element text = createText(x, y, height);
+    Element text = TagCreator.createText(x, y, height);
     tree.appendChild(root);
     tree.appendChild(text);
     if (height == 0) return;

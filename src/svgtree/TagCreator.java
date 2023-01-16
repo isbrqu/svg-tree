@@ -65,19 +65,18 @@ public class TagCreator {
     return circle;
   }
 
-  // public static Element
-  // createText(float cx, float cy, int num)
-  // throws ParserConfigurationException {
-  //   Element text = createElementNS("text");
-  //   text.setTextContent(Integer.toString(num));
-  //   text.setAttribute("x", Float.toString(cx));
-  //   text.setAttribute("y", Float.toString(cy + HALF));
-  //   text.setAttribute("font-size", Float.toString(FONT_SIZE));
-  //   text.setAttribute("fill", "#000");
-  //   text.setAttribute("text-anchor", "middle");
-  //   text.setAttribute("alignment-baseline", "middle");
-  //   return text;
-  // }
+  public static Element
+  createText(float cx, float cy, int num) {
+    Element text = createElementNS("text");
+    text.setTextContent(Integer.toString(num));
+    text.setAttribute("x", Float.toString(cx));
+    text.setAttribute("y", Float.toString(cy + HALF));
+    text.setAttribute("font-size", Float.toString(FONT_SIZE));
+    text.setAttribute("fill", "#000");
+    text.setAttribute("text-anchor", "middle");
+    // text.setAttribute("alignment-baseline", "middle");
+    return text;
+  }
 
   // public static Element
   // createLine(float x1, float y1, float x2, float y2) {

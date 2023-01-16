@@ -73,18 +73,6 @@ public class Main {
     svg.appendChild(tree);
   }
 
-  public static Element
-  createLine(float x1, float y1, float x2, float y2) {
-    Element line = doc.createElementNS(SVG, "line");
-    line.setAttribute("x1", Float.toString(x1));
-    line.setAttribute("y1", Float.toString(y1));
-    line.setAttribute("x2", Float.toString(x2));
-    line.setAttribute("y2", Float.toString(y2));
-    line.setAttribute("stroke", "#fff");
-    line.setAttribute("stroke-width", Float.toString(HALF / 2));
-    return line;
-  }
-
   private static void
   draw(int height, float x, float y) {
     String color = "#fff";
@@ -100,14 +88,14 @@ public class Main {
     float margin = (float) Math.pow(2, height) * RADIO;
     float x1 = x - margin;
     float y1 = calculateY(height, x1, x, y);
-    Element line1 = createLine(xl, yl, x1, y1);
+    Element line1 = TagCreator.createLine(xl, yl, x1, y1);
     tree.appendChild(line1);
     draw(height - 1, x1, y1);
     xl = x + HALF;
     yl = calculateY(xl, x, y);
     float x2 = x + margin;
     float y2 = calculateY(height, x2, x, y);
-    Element line2 = createLine(xl, yl, x2, y2);
+    Element line2 = TagCreator.createLine(xl, yl, x2, y2);
     tree.appendChild(line2);
     draw(height - 1, x2, y2);
   }

@@ -78,19 +78,16 @@ public class TagCreator {
     return text;
   }
 
-  // public static Element
-  // createLine(float x1, float y1, float x2, float y2) {
-  //   String TYPE = "line";
-  //   Element line = doc
-  //     .newDocument()
-  //     .createElementNS(SVG, TYPE);
-  //   line.setAttribute("x1", Float.toString(x1));
-  //   line.setAttribute("y1", Float.toString(y1));
-  //   line.setAttribute("x2", Float.toString(x2));
-  //   line.setAttribute("y2", Float.toString(y2));
-  //   line.setAttribute("stroke", "#fff");
-  //   line.setAttribute("stroke-width", Float.toString(HALF / 2));
-  //   return line;
-  // }
+  public static Element
+  createLine(float x1, float y1, float x2, float y2) {
+    Element line = createElementNS("line");
+    line.setAttribute("x1", Float.toString(x1));
+    line.setAttribute("y1", Float.toString(y1));
+    line.setAttribute("x2", Float.toString(x2));
+    line.setAttribute("y2", Float.toString(y2));
+    line.setAttribute("stroke", "#fff");
+    line.setAttribute("stroke-width", Float.toString(HALF / 2));
+    return line;
+  }
 
 }

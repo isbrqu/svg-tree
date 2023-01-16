@@ -75,12 +75,7 @@ public class Main {
 
   private static void
   draw(int height, float x, float y) {
-    String color = "#fff";
-    Element root = TagCreator.createCircle(x, y, RADIO, color);
-    System.out.println("height: " + height);
-    Element text = TagCreator.createText(x, y, height);
-    tree.appendChild(root);
-    tree.appendChild(text);
+    drawCircle(height, x, y);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * RADIO;
     float x1 = x - margin;
@@ -91,6 +86,16 @@ public class Main {
     float y2 = calculateY(height, x2, x, y);
     drawLine(x, y, x2, y2, -1);
     draw(height - 1, x2, y2);
+  }
+
+  private static void
+  drawCircle(int height, float x, float y) {
+    String color = "#fff";
+    Element root = TagCreator.createCircle(x, y, RADIO, color);
+    System.out.println("height: " + height);
+    Element text = TagCreator.createText(x, y, height);
+    tree.appendChild(root);
+    tree.appendChild(text);
   }
 
   private static void

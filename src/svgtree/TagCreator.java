@@ -40,7 +40,7 @@ public class TagCreator {
     return instance;
   }
 
-  private static Element
+  public static Element
   createElementNS(String type) {
     Element element = null;
     try {
@@ -54,13 +54,13 @@ public class TagCreator {
   }
 
   public static Element
-  createCircle(float cx, float cy, float r, String color) {
+  createCircle(float cx, float cy, float r) {
     Element circle = null;
     circle = createElementNS("circle");
     circle.setAttribute("cx", Float.toString(cx));
     circle.setAttribute("cy", Float.toString(cy));
     circle.setAttribute("r", Float.toString(r));
-    circle.setAttribute("fill", color);
+    circle.setAttribute("fill", "#fff");
     return circle;
   }
 

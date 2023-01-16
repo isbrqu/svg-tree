@@ -11,6 +11,7 @@ import java.lang.Math;
 import java.util.HashMap;
 import java.util.Arrays;
 import svgtree.TagCreator;
+import svgtree.Proportion;
 
 public class Main {
 
@@ -20,10 +21,7 @@ public class Main {
   private static final String SVG = "http://www.w3.org/2000/svg";
   private static final String output = "out/tree.svg";
 
-  private static final float RADIO = .5f;
-  private static final float DIAMETER = 2 * RADIO;
-  private static final float HALF = RADIO / 2;
-  private static final int HEIGHT = 3;
+  public static final int HEIGHT = 3;
 
   public static void
   main(String[] args) {
@@ -31,15 +29,15 @@ public class Main {
       doc = TagCreator.getInstance().getDocument();
       createSvg();
       createTree();
-      float x = (float) Math.pow(2, HEIGHT + 1) * RADIO;
-      float y = DIAMETER;
+      float x = (float) Math.pow(2, HEIGHT + 1) * Proportion.RADIO;
+      float y = Proportion.DIAMETER;
       HashMap<String,Float> coordinates
         = calculateCoordinates(HEIGHT, x, y);
       calculateCoordinates(HEIGHT, x, y);
       float minX = 0;
       float minY = 0;
-      float width = coordinates.get("cx") + DIAMETER;
-      float height = coordinates.get("cy") + DIAMETER;
+      float width = coordinates.get("cx") + Proportion.DIAMETER;
+      float height = coordinates.get("cy") + Proportion.DIAMETER;
       Float[] numbers = {minX, minY, width, height};
       String viewBox = Arrays
         .stream(numbers)
@@ -62,14 +60,14 @@ public class Main {
 
   private static void
   createSvg() {
-    svg = doc.createElementNS(SVG, "svg");
+    svg = TagCreator.createElementNS("svg");
     svg.setAttribute("style", "background-color: rgb(42, 42, 42);");
     doc.appendChild(svg);
   }
   
   private static void
   createTree() {
-    tree = doc.createElementNS(SVG, "g");
+    tree = TagCreator.createElementNS("g");
     svg.appendChild(tree);
   }
 
@@ -77,8 +75,9 @@ public class Main {
   draw(int height, float x, float y) {
     drawCircle(height, x, y);
     if (height == 0) return;
-    float margin = (float) Math.pow(2, height) * RADIO;
-    float hypotenuse = (float) Math.pow(2, height) * DIAMETER;
+    float margin = (float) Math.pow(2, height) * Proportion.RADIO;
+    float hypotenuse =
+      (float) Math.pow(2, height) * Proportion.DIAMETER;
     float x1 = x - margin;
     float y1 = calculateY(hypotenuse, x1, x, y, 1);
     drawLine(x, y, x1, y1, 1);
@@ -92,7 +91,7 @@ public class Main {
   private static void
   drawCircle(int height, float x, float y) {
     String color = "#fff";
-    Element root = TagCreator.createCircle(x, y, RADIO, color);
+    Element root = TagCreator.createCircle(x, y, Proportion.RADIO);
     System.out.println("height: " + height);
     Element text = TagCreator.createText(x, y, height);
     tree.appendChild(root);
@@ -101,10 +100,10 @@ public class Main {
 
   private static void
   drawLine(float x1, float y1, float x2, float y2, float direction) {
-    float hypotenuse = RADIO;
-    float xl1 = x1 - direction * HALF;
+    float hypotenuse = Proportion.RADIO;
+    float xl1 = x1 - direction * Proportion.HALF;
     float yl1 = calculateY(hypotenuse, xl1, x1, y1, 1);
-    float xl2 = x2 + direction * HALF;
+    float xl2 = x2 + direction * Proportion.HALF;
     float yl2 = calculateY(hypotenuse, xl2, x2, y2, -1);
     Element line = TagCreator.createLine(xl1, yl1, xl2, yl2);
     tree.appendChild(line);
@@ -131,8 +130,8 @@ public class Main {
     HashMap<String,Float> coordinates
       = new HashMap<String,Float>();
     float nextPower = (float) Math.pow(2, height + 1);
-    float x1 = (nextPower - 1) * DIAMETER;
-    float hypotenuse = (nextPower - 2) * DIAMETER;
+    float x1 = (nextPower - 1) * Proportion.DIAMETER;
+    float hypotenuse = (nextPower - 2) * Proportion.DIAMETER;
     float opposite = x1 - x2;
     float adjacent = calculateLeg(hypotenuse, opposite);
     float y1 = adjacent + y2;

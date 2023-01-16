@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 import java.lang.Math;
 import java.util.HashMap;
 import java.util.Arrays;
-import svgtree.CreatorTag;
+import svgtree.TagCreator;
 
 public class Main {
 
@@ -28,7 +28,7 @@ public class Main {
   public static void
   main(String[] args) {
     try {
-      doc = CreatorTag.getInstance().getDocument();
+      doc = TagCreator.getInstance().getDocument();
       createSvg();
       createTree();
       float x = (float) Math.pow(2, HEIGHT + 1) * RADIO;
@@ -114,7 +114,7 @@ public class Main {
   private static void
   draw(int height, float x, float y) {
     String color = "#fff";
-    Element root = CreatorTag.createCircle(x, y, RADIO, color);
+    Element root = TagCreator.createCircle(x, y, RADIO, color);
     System.out.println("height: " + height);
     Element text = createText(x, y, height);
     tree.appendChild(root);

@@ -5,7 +5,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 
-public class CreatorTag {
+public class TagCreator {
 
   private static final float RADIO = .5f;
   private static final float DIAMETER = 2 * RADIO;
@@ -14,12 +14,12 @@ public class CreatorTag {
   private static final float FONT_SIZE = RADIO + HALF;
 
   private static final String SVG = "http://www.w3.org/2000/svg";
-  private static CreatorTag instance;
+  private static TagCreator instance;
 
   private Document document;
 
   public
-  CreatorTag()
+  TagCreator()
   throws ParserConfigurationException {
     this.document = DocumentBuilderFactory
       .newInstance()
@@ -32,11 +32,11 @@ public class CreatorTag {
     return this.document;
   }
 
-  public static CreatorTag
+  public static TagCreator
   getInstance()
   throws ParserConfigurationException {
     if (instance == null) {
-      instance = new CreatorTag();
+      instance = new TagCreator();
     }
     return instance;
   }

@@ -78,12 +78,13 @@ public class Main {
     drawCircle(height, x, y);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * RADIO;
+    float hypotenuse = (float) Math.pow(2, height) * DIAMETER;
     float x1 = x - margin;
-    float y1 = calculateY(height, x1, x, y);
+    float y1 = calculateY(hypotenuse, x1, x, y, 1);
     drawLine(x, y, x1, y1, 1);
     draw(height - 1, x1, y1);
     float x2 = x + margin;
-    float y2 = calculateY(height, x2, x, y);
+    float y2 = calculateY(hypotenuse, x2, x, y, 1);
     drawLine(x, y, x2, y2, -1);
     draw(height - 1, x2, y2);
   }
@@ -100,37 +101,19 @@ public class Main {
 
   private static void
   drawLine(float x1, float y1, float x2, float y2, float direction) {
+    float hypotenuse = RADIO;
     float xl1 = x1 - direction * HALF;
-    float yl1 = calculateY(xl1, x1, y1);
+    float yl1 = calculateY(hypotenuse, xl1, x1, y1, 1);
     float xl2 = x2 + direction * HALF;
-    float yl2 = calculateY2(xl2, x2, y2);
+    float yl2 = calculateY(hypotenuse, xl2, x2, y2, -1);
     Element line = TagCreator.createLine(xl1, yl1, xl2, yl2);
     tree.appendChild(line);
   }
   
   private static float
-  calculateY(float h, float x1, float x2, float y2) {
-    float hypotenuse = (float) Math.pow(2, h) * DIAMETER;
+  calculateY(float hypotenuse, float x1, float x2, float y2, int d) {
     float opposite = x1 - x2;
-    float adjacent = calculateLeg(hypotenuse, opposite);
-    float y1 = adjacent + y2;
-    return y1;
-  }
-
-  private static float
-  calculateY(float x1, float x2, float y2) {
-    float hypotenuse = RADIO;
-    float opposite = x1 - x2;
-    float adjacent = calculateLeg(hypotenuse, opposite);
-    float y1 = adjacent + y2;
-    return y1;
-  }
-
-  private static float
-  calculateY2(float x1, float x2, float y2) {
-    float hypotenuse = RADIO;
-    float opposite = x1 - x2;
-    float adjacent = - calculateLeg(hypotenuse, opposite);
+    float adjacent = d * calculateLeg(hypotenuse, opposite);
     float y1 = adjacent + y2;
     return y1;
   }

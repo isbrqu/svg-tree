@@ -82,22 +82,25 @@ public class Main {
     tree.appendChild(root);
     tree.appendChild(text);
     if (height == 0) return;
-    float xl, yl;
-    xl = x - HALF;
-    yl = calculateY(xl, x, y);
     float margin = (float) Math.pow(2, height) * RADIO;
     float x1 = x - margin;
     float y1 = calculateY(height, x1, x, y);
-    Element line1 = TagCreator.createLine(xl, yl, x1, y1);
-    tree.appendChild(line1);
+    drawLine(x, y, x1, y1, 1);
     draw(height - 1, x1, y1);
-    xl = x + HALF;
-    yl = calculateY(xl, x, y);
     float x2 = x + margin;
     float y2 = calculateY(height, x2, x, y);
-    Element line2 = TagCreator.createLine(xl, yl, x2, y2);
-    tree.appendChild(line2);
+    drawLine(x, y, x2, y2, -1);
     draw(height - 1, x2, y2);
+  }
+
+  private static void
+  drawLine(float x1, float y1, float x2, float y2, float direction) {
+    float xl1 = x1 - direction * HALF;
+    float yl1 = calculateY(xl1, x1, y1);
+    float xl2 = x2 + direction * HALF;
+    float yl2 = calculateY2(xl2, x2, y2);
+    Element line = TagCreator.createLine(xl1, yl1, xl2, yl2);
+    tree.appendChild(line);
   }
   
   private static float
@@ -114,6 +117,15 @@ public class Main {
     float hypotenuse = RADIO;
     float opposite = x1 - x2;
     float adjacent = calculateLeg(hypotenuse, opposite);
+    float y1 = adjacent + y2;
+    return y1;
+  }
+
+  private static float
+  calculateY2(float x1, float x2, float y2) {
+    float hypotenuse = RADIO;
+    float opposite = x1 - x2;
+    float adjacent = - calculateLeg(hypotenuse, opposite);
     float y1 = adjacent + y2;
     return y1;
   }

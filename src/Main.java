@@ -73,16 +73,6 @@ public class Main {
     svg.appendChild(tree);
   }
 
-  private static Element
-  createCircle(float cx, float cy, float r, String color) {
-    Element circle = doc.createElementNS(SVG, "circle");
-    circle.setAttribute("cx", Float.toString(cx));
-    circle.setAttribute("cy", Float.toString(cy));
-    circle.setAttribute("r", Float.toString(r));
-    circle.setAttribute("fill", color);
-    return circle;
-  }
-
   public static Element
   createLine(float x1, float y1, float x2, float y2) {
     Element line = doc.createElementNS(SVG, "line");

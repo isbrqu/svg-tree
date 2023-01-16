@@ -42,25 +42,26 @@ public class TagCreator {
   }
 
   private static Element
-  createElementNS(String type)
-  throws ParserConfigurationException {
-    return getInstance()
-      .getDocument()
-      .createElementNS(SVG, type);
+  createElementNS(String type) {
+    Element element = null;
+    try {
+      element = getInstance()
+        .getDocument()
+        .createElementNS(SVG, type);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+    }
+    return element;
   }
 
   public static Element
   createCircle(float cx, float cy, float r, String color) {
     Element circle = null;
-    try {
-      circle = createElementNS("circle");
-      circle.setAttribute("cx", Float.toString(cx));
-      circle.setAttribute("cy", Float.toString(cy));
-      circle.setAttribute("r", Float.toString(r));
-      circle.setAttribute("fill", color);
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-    }
+    circle = createElementNS("circle");
+    circle.setAttribute("cx", Float.toString(cx));
+    circle.setAttribute("cy", Float.toString(cy));
+    circle.setAttribute("r", Float.toString(r));
+    circle.setAttribute("fill", color);
     return circle;
   }
 

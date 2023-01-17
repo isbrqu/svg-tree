@@ -26,26 +26,7 @@ public class Main {
   public static void
   main(String[] args) {
     try {
-      doc = TagCreator.getInstance().getDocument();
-      createSvg();
-      createTree();
-      float x = (float) Math.pow(2, HEIGHT + 1) * Proportion.RADIO;
-      float y = Proportion.DIAMETER;
-      HashMap<String,Float> coordinates
-        = calculateCoordinates(HEIGHT, x, y);
-      calculateCoordinates(HEIGHT, x, y);
-      float minX = 0;
-      float minY = 0;
-      float width = coordinates.get("cx") + Proportion.DIAMETER;
-      float height = coordinates.get("cy") + Proportion.DIAMETER;
-      Float[] numbers = {minX, minY, width, height};
-      String viewBox = Arrays
-        .stream(numbers)
-        .map(number -> Float.toString(number))
-        .reduce("", (result, value)
-            -> result.equals("") ? value : result + " " + value);
-      svg.setAttribute("viewBox", viewBox);
-      draw(HEIGHT, x, y);
+      drawTree(HEIGHT, Proportion.RADIO);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();
@@ -107,6 +88,36 @@ public class Main {
     float yl2 = calculateY(hypotenuse, xl2, x2, y2, -1);
     Element line = TagCreator.createLine(xl1, yl1, xl2, yl2);
     tree.appendChild(line);
+  }
+
+  private static void
+  drawTree(int treeHeight, float radio) 
+  throws ParserConfigurationException {
+    doc = TagCreator.getInstance().getDocument();
+    createSvg();
+    createTree();
+    float x = (float) Math.pow(2, HEIGHT + 1) * Proportion.RADIO;
+    float y = Proportion.DIAMETER;
+    configureViewBox(x, y);
+    draw(HEIGHT, x, y);
+  }
+
+  private static void
+  configureViewBox(float x, float y) {
+    HashMap<String,Float> coordinates
+      = calculateCoordinates(HEIGHT, x, y);
+    calculateCoordinates(HEIGHT, x, y);
+    float minX = 0;
+    float minY = 0;
+    float width = coordinates.get("cx") + Proportion.DIAMETER;
+    float height = coordinates.get("cy") + Proportion.DIAMETER;
+    Float[] numbers = {minX, minY, width, height};
+    String viewBox = Arrays
+      .stream(numbers)
+      .map(number -> Float.toString(number))
+      .reduce("", (result, value)
+          -> result.equals("") ? value : result + " " + value);
+    svg.setAttribute("viewBox", viewBox);
   }
   
   private static float

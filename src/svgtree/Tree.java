@@ -58,8 +58,8 @@ public class Tree {
   }
 
   private void
-  draw(int height, float x, float y) {
-    drawNode(height, x, y);
+  draw(float x, float y, int height) {
+    drawNode(x, y, height);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * this.radio;
     float hypotenuse =
@@ -67,28 +67,28 @@ public class Tree {
     float x1 = x - margin;
     float y1 = Utils.calculateY(hypotenuse, x1, x, y, 1);
     drawLine(x, y, x1, y1, 1);
-    draw(height - 1, x1, y1);
+    draw(x1, y1, height - 1);
     float x2 = x + margin;
     float y2 = Utils.calculateY(hypotenuse, x2, x, y, 1);
     drawLine(x, y, x2, y2, -1);
-    draw(height - 1, x2, y2);
+    draw(x2, y2, height - 1);
   }
 
   private void
-  drawNode(int height, float cx, float cy) {
-    drawCircle(height, cx, cy);
-    drawText(height, cx, cy + this.half);
+  drawNode(float cx, float cy, int height) {
+    drawCircle(cx, cy, height);
+    drawText(cx, cy + this.half, height);
   }
 
   private void
-  drawCircle(int height, float cx, float cy) {
+  drawCircle(float cx, float cy, int height) {
     String color = "#fff";
     Element root = this.tagCreator.createCircle(cx, cy, this.radio);
     tree.appendChild(root);
   }
 
   private void
-  drawText(int height, float x, float y) {
+  drawText(float x, float y, int height) {
     Element text = this.tagCreator.createText(x, y, height);
     tree.appendChild(text);
   }
@@ -113,7 +113,7 @@ public class Tree {
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     configureViewBox(x, y);
-    draw(this.height, x, y);
+    draw(x, y, this.height);
   }
 
   private void

@@ -16,7 +16,7 @@ public class Tree {
 
   private int x;
   private int y;
-  private int HEIGHT;
+  private int height;
   private float radio;
   private float diameter;
   private float half;
@@ -24,11 +24,11 @@ public class Tree {
 
   public Tree(int height, float radio) 
   throws ParserConfigurationException {
-    this.HEIGHT = height;
+    this.height = height;
     this.radio = radio;
     this.diameter = 2 * radio;
     this.half = radio / 2;
-    float x = (float) Math.pow(2, HEIGHT + 1) * this.radio;
+    float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     this.tagCreator = new TagCreator(this.radio);
     this.doc = this.tagCreator.getDocument();
@@ -110,17 +110,17 @@ public class Tree {
     doc = this.tagCreator.getDocument();
     createSvg();
     createTree();
-    float x = (float) Math.pow(2, HEIGHT + 1) * this.radio;
+    float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     configureViewBox(x, y);
-    draw(HEIGHT, x, y);
+    draw(this.height, x, y);
   }
 
   private void
   configureViewBox(float x, float y) {
     HashMap<String,Float> coordinates
-      = calculateCoordinates(HEIGHT, x, y);
-    calculateCoordinates(HEIGHT, x, y);
+      = calculateCoordinates(this.height, x, y);
+    calculateCoordinates(this.height, x, y);
     float minX = 0;
     float minY = 0;
     float width = coordinates.get("cx") + this.diameter;

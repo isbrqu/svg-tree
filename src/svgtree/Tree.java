@@ -19,6 +19,7 @@ public class Tree {
   private int y;
   private int HEIGHT;
   private float RADIO;
+  private TagCreator tagCreator;
 
   public Tree(int height, float radio) 
   throws ParserConfigurationException {
@@ -26,7 +27,8 @@ public class Tree {
     this.RADIO = radio;
     float x = (float) Math.pow(2, HEIGHT + 1) * Proportion.RADIO;
     float y = Proportion.DIAMETER;
-    this.doc = TagCreator.getInstance().getDocument();
+    this.tagCreator = new TagCreator(this.RADIO);
+    this.doc = this.tagCreator.getDocument();
     // configureViewBox(x, y);
   }
 
@@ -41,14 +43,14 @@ public class Tree {
 
   private void
   createSvg() {
-    svg = TagCreator.createElementNS("svg");
+    svg = this.tagCreator.createElementNS("svg");
     svg.setAttribute("style", "background-color: rgb(42, 42, 42);");
     doc.appendChild(svg);
   }
   
   private void
   createTree() {
-    tree = TagCreator.createElementNS("g");
+    tree = this.tagCreator.createElementNS("g");
     svg.appendChild(tree);
   }
 
@@ -72,9 +74,9 @@ public class Tree {
   private void
   drawCircle(int height, float x, float y) {
     String color = "#fff";
-    Element root = TagCreator.createCircle(x, y, Proportion.RADIO);
+    Element root = this.tagCreator.createCircle(x, y, Proportion.RADIO);
     System.out.println("height: " + height);
-    Element text = TagCreator.createText(x, y, height);
+    Element text = this.tagCreator.createText(x, y, height);
     tree.appendChild(root);
     tree.appendChild(text);
   }
@@ -86,14 +88,14 @@ public class Tree {
     float yl1 = calculateY(hypotenuse, xl1, x1, y1, 1);
     float xl2 = x2 + direction * Proportion.HALF;
     float yl2 = calculateY(hypotenuse, xl2, x2, y2, -1);
-    Element line = TagCreator.createLine(xl1, yl1, xl2, yl2);
+    Element line = this.tagCreator.createLine(xl1, yl1, xl2, yl2);
     tree.appendChild(line);
   }
 
   public void
   drawTree(int treeHeight, float radio) 
   throws ParserConfigurationException {
-    doc = TagCreator.getInstance().getDocument();
+    doc = this.tagCreator.getDocument();
     createSvg();
     createTree();
     float x = (float) Math.pow(2, HEIGHT + 1) * Proportion.RADIO;

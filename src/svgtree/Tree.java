@@ -32,7 +32,6 @@ public class Tree {
     float y = this.diameter;
     this.tagCreator = new TagCreator(this.radio);
     this.doc = this.tagCreator.getDocument();
-    // configureViewBox(x, y);
   }
 
   public Tree(int height)
@@ -120,7 +119,6 @@ public class Tree {
   configureViewBox(float x, float y) {
     HashMap<String,Float> coordinates
       = calculateCoordinates(this.height, x, y);
-    calculateCoordinates(this.height, x, y);
     float minX = 0;
     float minY = 0;
     float width = coordinates.get("cx") + this.diameter;

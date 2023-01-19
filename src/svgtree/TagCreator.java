@@ -14,6 +14,8 @@ public class TagCreator {
   private float radio;
   private String fontSize;
   private String strokeWidth;
+  private Element tagTree;
+  private Element tagSvg;
 
   public
   TagCreator()
@@ -27,13 +29,16 @@ public class TagCreator {
   public
   TagCreator(float radio)
   throws ParserConfigurationException {
+    this();
     this.radio = radio;
     this.fontSize = Float.toString(radio + radio / 2);
     this.strokeWidth = Float.toString(radio / 4);
-    this.document = DocumentBuilderFactory
-      .newInstance()
-      .newDocumentBuilder()
-      .newDocument();
+    this.tagSvg = this.createElementNS("svg");
+    String style = "background-color: rgb(42, 42, 42);";
+    this.tagSvg.setAttribute("style", style);
+    this.tagTree = this.createElementNS("g");
+    this.tagSvg.appendChild(this.tagTree);
+    this.document.appendChild(this.tagSvg);
   }
 
   public Document
@@ -42,11 +47,13 @@ public class TagCreator {
   }
 
   public Element
-  createSvg() {
-    Element svg = this.createElementNS("svg");
-    svg.setAttribute("style", "background-color: rgb(42, 42, 42);");
-    this.document.appendChild(svg);
-    return svg;
+  getTagSVG() {
+    return this.tagSvg;
+  }
+
+  public Element
+  getTagTree() {
+    return this.tagTree;
   }
 
   public Element

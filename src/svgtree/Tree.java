@@ -37,7 +37,8 @@ public class Tree {
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     this.tagCreator = new TagCreator(this.radio);
-    this.svg = tagCreator.createSvg();
+    this.svg = this.tagCreator.getTagSVG();
+    this.tree = this.tagCreator.getTagTree();
   }
 
   public Tree(int height)
@@ -45,16 +46,9 @@ public class Tree {
     this(height, 0.5f);
   }
 
-  private void
-  createTree() {
-    tree = this.tagCreator.createElementNS("g");
-    this.svg.appendChild(tree);
-  }
-
   public void
   drawTree() 
   throws ParserConfigurationException {
-    createTree();
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     configureViewBox(x, y, this.radio, this.height);

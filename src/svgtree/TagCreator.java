@@ -42,6 +42,14 @@ public class TagCreator {
   }
 
   public Element
+  createSvg() {
+    Element svg = this.createElementNS("svg");
+    svg.setAttribute("style", "background-color: rgb(42, 42, 42);");
+    this.document.appendChild(svg);
+    return svg;
+  }
+
+  public Element
   createElementNS(String type) {
     Element element = null;
     try {

@@ -37,6 +37,7 @@ public class Tree {
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     this.tagCreator = new TagCreator(this.radio);
+    this.svg = tagCreator.createSvg();
   }
 
   public Tree(int height)
@@ -45,22 +46,14 @@ public class Tree {
   }
 
   private void
-  createSvg() {
-    svg = this.tagCreator.createElementNS("svg");
-    svg.setAttribute("style", "background-color: rgb(42, 42, 42);");
-    this.tagCreator.getDocument().appendChild(svg);
-  }
-  
-  private void
   createTree() {
     tree = this.tagCreator.createElementNS("g");
-    svg.appendChild(tree);
+    this.svg.appendChild(tree);
   }
 
   public void
   drawTree() 
   throws ParserConfigurationException {
-    createSvg();
     createTree();
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
@@ -129,7 +122,7 @@ public class Tree {
       .map(number -> Float.toString(number))
       .reduce("", (result, value)
           -> result.equals("") ? value : result + " " + value);
-    svg.setAttribute("viewBox", viewBox);
+    this.svg.setAttribute("viewBox", viewBox);
   }
   
   private HashMap<String,Float>

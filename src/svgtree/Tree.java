@@ -75,10 +75,11 @@ public class Tree {
   }
 
   private void
-  drawCircle(int height, float x, float y) {
+  drawCircle(int height, float cx, float cy) {
     String color = "#fff";
-    Element root = this.tagCreator.createCircle(x, y, this.radio);
-    System.out.println("height: " + height);
+    float x = cx;
+    float y = cy + this.half;
+    Element root = this.tagCreator.createCircle(cx, cy, this.radio);
     Element text = this.tagCreator.createText(x, y, height);
     tree.appendChild(root);
     tree.appendChild(text);

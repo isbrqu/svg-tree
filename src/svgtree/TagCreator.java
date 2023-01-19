@@ -5,7 +5,6 @@ import org.w3c.dom.DOMException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
-import svgtree.Proportion;
 
 public class TagCreator {
 
@@ -76,11 +75,11 @@ public class TagCreator {
   }
 
   public Element
-  createText(float cx, float cy, int num) {
+  createText(float x, float y, int num) {
     Element text = createElement("text");
     text.setTextContent(Integer.toString(num));
-    text.setAttribute("x", Float.toString(cx));
-    text.setAttribute("y", Float.toString(cy + Proportion.HALF));
+    text.setAttribute("x", Float.toString(x));
+    text.setAttribute("y", Float.toString(y));
     text.setAttribute("font-size", this.fontSize);
     text.setAttribute("fill", "#000");
     text.setAttribute("text-anchor", "middle");

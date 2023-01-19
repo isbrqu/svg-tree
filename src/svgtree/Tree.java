@@ -1,5 +1,10 @@
 package svgtree;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,7 +37,6 @@ public class Tree {
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     this.tagCreator = new TagCreator(this.radio);
-    this.doc = this.tagCreator.getDocument();
   }
 
   public Tree(int height)
@@ -40,21 +44,28 @@ public class Tree {
     this(height, 0.5f);
   }
 
-  public Document getDocument() {
-    return this.doc;
-  }
-
   private void
   createSvg() {
     svg = this.tagCreator.createElementNS("svg");
     svg.setAttribute("style", "background-color: rgb(42, 42, 42);");
-    doc.appendChild(svg);
+    this.tagCreator.getDocument().appendChild(svg);
   }
   
   private void
   createTree() {
     tree = this.tagCreator.createElementNS("g");
     svg.appendChild(tree);
+  }
+
+  public void
+  drawTree() 
+  throws ParserConfigurationException {
+    createSvg();
+    createTree();
+    float x = (float) Math.pow(2, this.height + 1) * this.radio;
+    float y = this.diameter;
+    configureViewBox(x, y);
+    draw(x, y, this.height);
   }
 
   private void
@@ -104,18 +115,6 @@ public class Tree {
     tree.appendChild(line);
   }
 
-  public void
-  drawTree(int treeHeight, float radio) 
-  throws ParserConfigurationException {
-    doc = this.tagCreator.getDocument();
-    createSvg();
-    createTree();
-    float x = (float) Math.pow(2, this.height + 1) * this.radio;
-    float y = this.diameter;
-    configureViewBox(x, y);
-    draw(x, y, this.height);
-  }
-
   private void
   configureViewBox(float x, float y) {
     HashMap<String,Float> coordinates
@@ -146,6 +145,21 @@ public class Tree {
     coordinates.put("cx", x1);
     coordinates.put("cy", y1);
     return coordinates;
+  }
+
+  public void
+  save(String filename) {
+    try {
+      Document document = this.tagCreator.getDocument();
+      DOMSource source = new DOMSource(document);
+      Transformer transformer = TransformerFactory
+        .newInstance()
+        .newTransformer();
+      StreamResult result = new StreamResult(filename);
+      transformer.transform(source, result);
+    } catch (TransformerException e) {
+      e.printStackTrace();
+    }
   }
 
 } 

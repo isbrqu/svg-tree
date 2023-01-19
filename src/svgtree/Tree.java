@@ -57,8 +57,40 @@ public class Tree {
     createTree();
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
-    configureViewBox(x, y);
+    configureViewBox(x, y, this.radio, this.height);
     draw(x, y, this.height);
+  }
+
+  private void
+  configureViewBox(float x, float y, float radio, float treeHeight) {
+    HashMap<String,Float> coordinates
+      = coordinates(x, y, radio, treeHeight);
+    float minX = 0;
+    float minY = 0;
+    float width = coordinates.get("cx") + this.diameter;
+    float height = coordinates.get("cy") + this.diameter;
+    Float[] numbers = {minX, minY, width, height};
+    String viewBox = Arrays
+      .stream(numbers)
+      .map(number -> Float.toString(number))
+      .reduce("", (result, value)
+          -> result.equals("") ? value : result + " " + value);
+    this.svg.setAttribute("viewBox", viewBox);
+  }
+  
+  private HashMap<String,Float>
+  coordinates(float x2, float y2, float radio, float height) {
+    HashMap<String,Float> coordinates = new HashMap<String,Float>();
+    float diameter = 2 * radio;
+    float nextPower = (float) Math.pow(2, height + 1);
+    float x1 = (nextPower - 1) * diameter;
+    float hypotenuse = (nextPower - 2) * diameter;
+    float opposite = x1 - x2;
+    float adjacent = Utils.calculateLeg(hypotenuse, opposite);
+    float y1 = adjacent + y2;
+    coordinates.put("cx", x1);
+    coordinates.put("cy", y1);
+    return coordinates;
   }
 
   private void
@@ -106,38 +138,6 @@ public class Tree {
     float yl2 = Utils.calculateY(hypotenuse, xl2, x2, y2, -1);
     Element line = this.tagCreator.createLine(xl1, yl1, xl2, yl2);
     tree.appendChild(line);
-  }
-
-  private void
-  configureViewBox(float x, float y) {
-    HashMap<String,Float> coordinates
-      = calculateCoordinates(this.height, x, y);
-    float minX = 0;
-    float minY = 0;
-    float width = coordinates.get("cx") + this.diameter;
-    float height = coordinates.get("cy") + this.diameter;
-    Float[] numbers = {minX, minY, width, height};
-    String viewBox = Arrays
-      .stream(numbers)
-      .map(number -> Float.toString(number))
-      .reduce("", (result, value)
-          -> result.equals("") ? value : result + " " + value);
-    this.svg.setAttribute("viewBox", viewBox);
-  }
-  
-  private HashMap<String,Float>
-  calculateCoordinates(float height, float x2, float y2) {
-    HashMap<String,Float> coordinates
-      = new HashMap<String,Float>();
-    float nextPower = (float) Math.pow(2, height + 1);
-    float x1 = (nextPower - 1) * this.diameter;
-    float hypotenuse = (nextPower - 2) * this.diameter;
-    float opposite = x1 - x2;
-    float adjacent = Utils.calculateLeg(hypotenuse, opposite);
-    float y1 = adjacent + y2;
-    coordinates.put("cx", x1);
-    coordinates.put("cy", y1);
-    return coordinates;
   }
 
   public void

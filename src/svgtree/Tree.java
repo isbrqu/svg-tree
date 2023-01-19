@@ -7,7 +7,6 @@ import java.lang.Math;
 import java.util.HashMap;
 import java.util.Arrays;
 import svgtree.TagCreator;
-import svgtree.Proportion;
 
 public class Tree {
 
@@ -18,16 +17,20 @@ public class Tree {
   private int x;
   private int y;
   private int HEIGHT;
-  private float RADIO;
+  private float radio;
+  private float diameter;
+  private float half;
   private TagCreator tagCreator;
 
   public Tree(int height, float radio) 
   throws ParserConfigurationException {
     this.HEIGHT = height;
-    this.RADIO = radio;
-    float x = (float) Math.pow(2, HEIGHT + 1) * Proportion.RADIO;
-    float y = Proportion.DIAMETER;
-    this.tagCreator = new TagCreator(this.RADIO);
+    this.radio = radio;
+    this.diameter = 2 * radio;
+    this.half = radio / 2;
+    float x = (float) Math.pow(2, HEIGHT + 1) * this.radio;
+    float y = this.diameter;
+    this.tagCreator = new TagCreator(this.radio);
     this.doc = this.tagCreator.getDocument();
     // configureViewBox(x, y);
   }
@@ -58,9 +61,9 @@ public class Tree {
   draw(int height, float x, float y) {
     drawCircle(height, x, y);
     if (height == 0) return;
-    float margin = (float) Math.pow(2, height) * Proportion.RADIO;
+    float margin = (float) Math.pow(2, height) * this.radio;
     float hypotenuse =
-      (float) Math.pow(2, height) * Proportion.DIAMETER;
+      (float) Math.pow(2, height) * this.diameter;
     float x1 = x - margin;
     float y1 = calculateY(hypotenuse, x1, x, y, 1);
     drawLine(x, y, x1, y1, 1);
@@ -74,7 +77,7 @@ public class Tree {
   private void
   drawCircle(int height, float x, float y) {
     String color = "#fff";
-    Element root = this.tagCreator.createCircle(x, y, Proportion.RADIO);
+    Element root = this.tagCreator.createCircle(x, y, this.radio);
     System.out.println("height: " + height);
     Element text = this.tagCreator.createText(x, y, height);
     tree.appendChild(root);
@@ -83,10 +86,10 @@ public class Tree {
 
   private void
   drawLine(float x1, float y1, float x2, float y2, float direction) {
-    float hypotenuse = Proportion.RADIO;
-    float xl1 = x1 - direction * Proportion.HALF;
+    float hypotenuse = this.radio;
+    float xl1 = x1 - direction * this.half;
     float yl1 = calculateY(hypotenuse, xl1, x1, y1, 1);
-    float xl2 = x2 + direction * Proportion.HALF;
+    float xl2 = x2 + direction * this.half;
     float yl2 = calculateY(hypotenuse, xl2, x2, y2, -1);
     Element line = this.tagCreator.createLine(xl1, yl1, xl2, yl2);
     tree.appendChild(line);
@@ -98,8 +101,8 @@ public class Tree {
     doc = this.tagCreator.getDocument();
     createSvg();
     createTree();
-    float x = (float) Math.pow(2, HEIGHT + 1) * Proportion.RADIO;
-    float y = Proportion.DIAMETER;
+    float x = (float) Math.pow(2, HEIGHT + 1) * this.radio;
+    float y = this.diameter;
     configureViewBox(x, y);
     draw(HEIGHT, x, y);
   }
@@ -111,8 +114,8 @@ public class Tree {
     calculateCoordinates(HEIGHT, x, y);
     float minX = 0;
     float minY = 0;
-    float width = coordinates.get("cx") + Proportion.DIAMETER;
-    float height = coordinates.get("cy") + Proportion.DIAMETER;
+    float width = coordinates.get("cx") + this.diameter;
+    float height = coordinates.get("cy") + this.diameter;
     Float[] numbers = {minX, minY, width, height};
     String viewBox = Arrays
       .stream(numbers)
@@ -143,8 +146,8 @@ public class Tree {
     HashMap<String,Float> coordinates
       = new HashMap<String,Float>();
     float nextPower = (float) Math.pow(2, height + 1);
-    float x1 = (nextPower - 1) * Proportion.DIAMETER;
-    float hypotenuse = (nextPower - 2) * Proportion.DIAMETER;
+    float x1 = (nextPower - 1) * this.diameter;
+    float hypotenuse = (nextPower - 2) * this.diameter;
     float opposite = x1 - x2;
     float adjacent = calculateLeg(hypotenuse, opposite);
     float y1 = adjacent + y2;

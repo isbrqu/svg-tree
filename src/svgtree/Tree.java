@@ -7,6 +7,7 @@ import java.lang.Math;
 import java.util.HashMap;
 import java.util.Arrays;
 import svgtree.TagCreator;
+import svgtree.Utils;
 
 public class Tree {
 
@@ -64,11 +65,11 @@ public class Tree {
     float hypotenuse =
       (float) Math.pow(2, height) * this.diameter;
     float x1 = x - margin;
-    float y1 = calculateY(hypotenuse, x1, x, y, 1);
+    float y1 = Utils.calculateY(hypotenuse, x1, x, y, 1);
     drawLine(x, y, x1, y1, 1);
     draw(height - 1, x1, y1);
     float x2 = x + margin;
-    float y2 = calculateY(hypotenuse, x2, x, y, 1);
+    float y2 = Utils.calculateY(hypotenuse, x2, x, y, 1);
     drawLine(x, y, x2, y2, -1);
     draw(height - 1, x2, y2);
   }
@@ -96,9 +97,9 @@ public class Tree {
   drawLine(float x1, float y1, float x2, float y2, float direction) {
     float hypotenuse = this.radio;
     float xl1 = x1 - direction * this.half;
-    float yl1 = calculateY(hypotenuse, xl1, x1, y1, 1);
+    float yl1 = Utils.calculateY(hypotenuse, xl1, x1, y1, 1);
     float xl2 = x2 + direction * this.half;
-    float yl2 = calculateY(hypotenuse, xl2, x2, y2, -1);
+    float yl2 = Utils.calculateY(hypotenuse, xl2, x2, y2, -1);
     Element line = this.tagCreator.createLine(xl1, yl1, xl2, yl2);
     tree.appendChild(line);
   }
@@ -132,22 +133,6 @@ public class Tree {
     svg.setAttribute("viewBox", viewBox);
   }
   
-  private float
-  calculateY(float hypotenuse, float x1, float x2, float y2, int d) {
-    float opposite = x1 - x2;
-    float adjacent = d * calculateLeg(hypotenuse, opposite);
-    float y1 = adjacent + y2;
-    return y1;
-  }
-
-  private float
-  calculateLeg(float hypotenuse, float leg) {
-    float hypotenuse2 = (float) Math.pow(hypotenuse, 2);
-    float leg2 = (float) Math.pow(leg, 2);
-    float result = (float) Math.sqrt(hypotenuse2 - leg2);
-    return result;
-  }
-
   private HashMap<String,Float>
   calculateCoordinates(float height, float x2, float y2) {
     HashMap<String,Float> coordinates
@@ -156,7 +141,7 @@ public class Tree {
     float x1 = (nextPower - 1) * this.diameter;
     float hypotenuse = (nextPower - 2) * this.diameter;
     float opposite = x1 - x2;
-    float adjacent = calculateLeg(hypotenuse, opposite);
+    float adjacent = Utils.calculateLeg(hypotenuse, opposite);
     float y1 = adjacent + y2;
     coordinates.put("cx", x1);
     coordinates.put("cy", y1);

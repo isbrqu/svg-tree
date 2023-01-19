@@ -59,7 +59,7 @@ public class Tree {
 
   private void
   draw(int height, float x, float y) {
-    drawCircle(height, x, y);
+    drawNode(height, x, y);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * this.radio;
     float hypotenuse =
@@ -75,13 +75,21 @@ public class Tree {
   }
 
   private void
+  drawNode(int height, float cx, float cy) {
+    drawCircle(height, cx, cy);
+    drawText(height, cx, cy + this.half);
+  }
+
+  private void
   drawCircle(int height, float cx, float cy) {
     String color = "#fff";
-    float x = cx;
-    float y = cy + this.half;
     Element root = this.tagCreator.createCircle(cx, cy, this.radio);
-    Element text = this.tagCreator.createText(x, y, height);
     tree.appendChild(root);
+  }
+
+  private void
+  drawText(int height, float x, float y) {
+    Element text = this.tagCreator.createText(x, y, height);
     tree.appendChild(text);
   }
 

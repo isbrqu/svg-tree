@@ -18,7 +18,7 @@ public class Tree {
 
   private Document doc;
   private Element svg;
-  private Element tree;
+  private Element tagTree;
 
   private int x;
   private int y;
@@ -38,7 +38,7 @@ public class Tree {
     float y = this.diameter;
     this.tagCreator = new TagCreator(this.radio);
     this.svg = this.tagCreator.getTagSVG();
-    this.tree = this.tagCreator.getTagTree();
+    this.tagTree = this.tagCreator.getTagTree();
   }
 
   public Tree(int height)
@@ -114,13 +114,13 @@ public class Tree {
   drawCircle(float cx, float cy, int height) {
     String color = "#fff";
     Element root = this.tagCreator.createCircle(cx, cy, this.radio);
-    tree.appendChild(root);
+    this.tagTree.appendChild(root);
   }
 
   private void
   drawText(float x, float y, int height) {
     Element text = this.tagCreator.createText(x, y, height);
-    tree.appendChild(text);
+    this.tagTree.appendChild(text);
   }
 
   private void
@@ -131,7 +131,7 @@ public class Tree {
     float xl2 = x2 + direction * this.half;
     float yl2 = Utils.calculateY(hypotenuse, xl2, x2, y2, -1);
     Element line = this.tagCreator.createLine(xl1, yl1, xl2, yl2);
-    tree.appendChild(line);
+    this.tagTree.appendChild(line);
   }
 
   public void

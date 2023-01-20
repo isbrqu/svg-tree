@@ -7,12 +7,12 @@ public class Circle {
 
   private final String type = "circle";
   private final String color = "#fff";
-  private float radio;
+  private String radio;
   private Document document;
 
   public Circle(Document document, float radio) {
     this.document = document;
-    this.radio = radio;
+    this.radio = Float.toString(radio);
   }
 
   public Element
@@ -20,7 +20,7 @@ public class Circle {
     Element element = this.document.createElement(type);
     element.setAttribute("cx", Float.toString(x));
     element.setAttribute("cy", Float.toString(y));
-    element.setAttribute("r", Float.toString(this.radio));
+    element.setAttribute("r", radio);
     element.setAttribute("fill", this.color);
     return element;
   }

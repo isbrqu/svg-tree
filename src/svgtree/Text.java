@@ -7,13 +7,11 @@ public class Text {
 
   private final String type = "text";
   private final String color = "#000";
-  private float radio;
   private String fontSize;
   private Document document;
 
   public Text(Document document, float fontSize) {
     this.document = document;
-    this.radio = radio;
     this.fontSize = Float.toString(fontSize);
   }
 

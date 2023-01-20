@@ -11,7 +11,6 @@ public class TagCreator {
   private static final String SVG = "http://www.w3.org/2000/svg";
 
   private Document document;
-  private float radio;
   private String fontSize;
   private String strokeWidth;
   private Element tagTree;
@@ -30,7 +29,6 @@ public class TagCreator {
   TagCreator(float radio)
   throws ParserConfigurationException {
     this();
-    this.radio = radio;
     this.fontSize = Float.toString(radio + radio / 2);
     this.strokeWidth = Float.toString(radio / 4);
     this.tagSvg = this.createElementNS("svg");

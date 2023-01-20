@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import svgtree.Circle;
 import svgtree.Text;
+import svgtree.Line;
 
 public class TagCreator {
 
@@ -19,6 +20,7 @@ public class TagCreator {
   private Element tagSvg;
   private Circle circle;
   private Text text;
+  private Line line;
 
   public
   TagCreator()
@@ -36,7 +38,8 @@ public class TagCreator {
     this.circle = new Circle(this.document, radio);
     float fontSize = radio + radio / 2;
     this.text = new Text(this.document, fontSize);
-    this.strokeWidth = Float.toString(radio / 4);
+    float strokeWidth = radio / 4;
+    this.line = new Line(this.document, strokeWidth);
     this.tagSvg = this.createElementNS("svg");
     String style = "background-color: rgb(42, 42, 42);";
     this.tagSvg.setAttribute("style", style);
@@ -94,14 +97,7 @@ public class TagCreator {
 
   public Element
   createLine(float x1, float y1, float x2, float y2) {
-    Element line = createElement("line");
-    line.setAttribute("x1", Float.toString(x1));
-    line.setAttribute("y1", Float.toString(y1));
-    line.setAttribute("x2", Float.toString(x2));
-    line.setAttribute("y2", Float.toString(y2));
-    line.setAttribute("stroke", "#fff");
-    line.setAttribute("stroke-width", this.strokeWidth);
-    return line;
+    return this.line.create(x1, y1, x2, y2);
   }
 
 }

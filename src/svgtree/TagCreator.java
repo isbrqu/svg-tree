@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import svgtree.Circle;
 import svgtree.Text;
 import svgtree.Line;
+import svgtree.Svg;
 
 public class TagCreator {
 
@@ -40,9 +41,7 @@ public class TagCreator {
     this.text = new Text(this.document, fontSize);
     float strokeWidth = radio / 4;
     this.line = new Line(this.document, strokeWidth);
-    this.tagSvg = this.createElementNS("svg");
-    String style = "background-color: rgb(42, 42, 42);";
-    this.tagSvg.setAttribute("style", style);
+    this.tagSvg = (new Svg(this.document)).create();
     this.tagTree = this.createElementNS("g");
     this.tagSvg.appendChild(this.tagTree);
     this.document.appendChild(this.tagSvg);

@@ -11,9 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.lang.Math;
-import java.util.HashMap;
-import java.util.Arrays;
-import svgtree.Utils;
 import svgtree.Circle;
 import svgtree.Text;
 import svgtree.Svg;
@@ -71,6 +68,8 @@ public class Tree {
     Point point = new Point(x, y);
     draw(point, this.height);
     // Establece los límites de vista del svg.
+    // Cálcula el punto inferior derecho y hace un corrimiento
+    // a la derecha.
     float power = (float) Math.pow(2, this.height);
     float nextPower = 2 * power;
     float xshift = (power - 1) * diameter;

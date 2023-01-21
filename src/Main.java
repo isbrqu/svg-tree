@@ -1,4 +1,5 @@
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import svgtree.Tree;
 
 public class Main {
@@ -12,7 +13,7 @@ public class Main {
       Tree tree1 = new Tree(3);
       tree1.drawTree();
       tree1.save(output);
-    } catch (ParserConfigurationException e) {
+    } catch (ParserConfigurationException | TransformerException e) {
       e.printStackTrace();
     }
   }

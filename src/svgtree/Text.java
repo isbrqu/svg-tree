@@ -28,4 +28,17 @@ public class Text {
     return element;
   }
 
+  public Element
+  create(Point point, String text) {
+    Element element = this.document.createElement(type);
+    element.setTextContent(text);
+    element.setAttribute("x", Float.toString(point.getX()));
+    element.setAttribute("y", Float.toString(point.getY()));
+    element.setAttribute("fill", this.color);
+    element.setAttribute("font-size", this.fontSize);
+    element.setAttribute("text-anchor", "middle");
+    element.setAttribute("alignment-baseline", "middle");
+    return element;
+  }
+
 } 

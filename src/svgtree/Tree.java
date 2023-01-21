@@ -14,6 +14,7 @@ import java.util.Arrays;
 import svgtree.TagCreator;
 import svgtree.Utils;
 import svgtree.Circle;
+import svgtree.Text;
 
 public class Tree {
 
@@ -29,6 +30,7 @@ public class Tree {
   private float half;
   private TagCreator tagCreator;
   private Circle circle;
+  private Text text;
 
   public Tree(int height, float radio) 
   throws ParserConfigurationException {
@@ -39,8 +41,10 @@ public class Tree {
     this.tagCreator = new TagCreator(this.radio);
     this.svg = this.tagCreator.getTagSVG();
     this.tagTree = this.tagCreator.getTagTree();
+    float fontSize = radio + radio / 2;
     Document document = this.tagCreator.getDocument();
     this.circle = new Circle(document, this.radio);
+    this.text = new Text(document, fontSize);
   }
 
   public Tree(int height)
@@ -97,7 +101,9 @@ public class Tree {
     Point textPoint = point.translateInY(this.half);
     Element circle = this.circle.create(point);
     this.tagTree.appendChild(circle);
-    drawText(textPoint, height);
+    Element text =
+      this.text.create(textPoint, Integer.toString(height));
+    this.tagTree.appendChild(text);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * this.radio;
     float hypotenuse =
@@ -108,14 +114,6 @@ public class Tree {
     Point point2 = point.bottomRight(margin, hypotenuse);
     drawLine(point, point2, -1);
     draw(point2, height - 1);
-  }
-
-  private void
-  drawText(Point point, int height) {
-    float x = point.getX();
-    float y = point.getY();
-    Element text = this.tagCreator.createText(x, y, height);
-    this.tagTree.appendChild(text);
   }
 
   // TODO: Implementar Point en drawLine

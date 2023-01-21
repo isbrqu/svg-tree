@@ -5,7 +5,6 @@ import org.w3c.dom.DOMException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
-import svgtree.Text;
 import svgtree.Line;
 import svgtree.Svg;
 
@@ -14,11 +13,9 @@ public class TagCreator {
   private static final String SVG = "http://www.w3.org/2000/svg";
 
   private Document document;
-  private String fontSize;
   private String strokeWidth;
   private Element tagTree;
   private Element tagSvg;
-  private Text text;
   private Line line;
 
   public
@@ -34,8 +31,6 @@ public class TagCreator {
   TagCreator(float radio)
   throws ParserConfigurationException {
     this();
-    float fontSize = radio + radio / 2;
-    this.text = new Text(this.document, fontSize);
     float strokeWidth = radio / 4;
     this.line = new Line(this.document, strokeWidth);
     this.tagSvg = (new Svg(this.document)).create();
@@ -79,11 +74,6 @@ public class TagCreator {
       e.printStackTrace();
     }
     return element;
-  }
-
-  public Element
-  createText(float x, float y, int num) {
-    return this.text.create(x, y, Integer.toString(num));
   }
 
   public Element

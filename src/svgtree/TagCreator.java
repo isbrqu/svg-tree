@@ -5,7 +5,6 @@ import org.w3c.dom.DOMException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
-import svgtree.Circle;
 import svgtree.Text;
 import svgtree.Line;
 import svgtree.Svg;
@@ -19,7 +18,6 @@ public class TagCreator {
   private String strokeWidth;
   private Element tagTree;
   private Element tagSvg;
-  private Circle circle;
   private Text text;
   private Line line;
 
@@ -36,7 +34,6 @@ public class TagCreator {
   TagCreator(float radio)
   throws ParserConfigurationException {
     this();
-    this.circle = new Circle(this.document, radio);
     float fontSize = radio + radio / 2;
     this.text = new Text(this.document, fontSize);
     float strokeWidth = radio / 4;
@@ -82,11 +79,6 @@ public class TagCreator {
       e.printStackTrace();
     }
     return element;
-  }
-
-  public Element
-  createCircle(float cx, float cy, float r) {
-    return this.circle.create(cx, cy, r);
   }
 
   public Element

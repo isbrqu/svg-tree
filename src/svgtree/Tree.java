@@ -95,7 +95,8 @@ public class Tree {
     float x = point.getX();
     float y = point.getY();
     Point textPoint = point.translateInY(this.half);
-    drawCircle(point, height);
+    Element circle = this.circle.create(point);
+    this.tagTree.appendChild(circle);
     drawText(textPoint, height);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * this.radio;
@@ -107,12 +108,6 @@ public class Tree {
     Point point2 = point.bottomRight(margin, hypotenuse);
     drawLine(point, point2, -1);
     draw(point2, height - 1);
-  }
-
-  private void
-  drawCircle(Point point, int height) {
-    Element root = this.circle.create(point);
-    this.tagTree.appendChild(root);
   }
 
   private void

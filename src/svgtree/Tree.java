@@ -49,8 +49,8 @@ public class Tree {
     this.svg.appendChild(tagTree);
     Circle.setDocument(document);
     Circle.setRadio(radio);
-    float fontSize = radio + radio / 2;
-    this.text = new Text(document, fontSize);
+    Text.setDocument(document);
+    Text.setFontSize(radio + radio / 2);
     float strokeWidth = half / 2;
     this.line = new Line(document, strokeWidth);
   }
@@ -83,12 +83,11 @@ public class Tree {
 
   private void
   draw(Point point, int height) {
-    Element text;
     Point textPoint = point.translateInY(this.half);
     Circle circle = new Circle(point);
     this.tagTree.appendChild(circle.getElement());
-    text = this.text.create(textPoint, Integer.toString(height));
-    this.tagTree.appendChild(text);
+    Text text = new Text(textPoint, Integer.toString(height));
+    this.tagTree.appendChild(text.getElement());
     if (height == 0) return;
     Point center, start, end;
     float xshift = (float) Math.pow(2, height) * this.radio;

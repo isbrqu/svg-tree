@@ -2,43 +2,27 @@ package svgtree;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import svgtree.PseudoTag;
 
-public class Text {
+public class Text extends PseudoTag {
 
+  private static String fontSize;
   private final String type = "text";
   private final String color = "#000";
-  private String fontSize;
-  private Document document;
 
-  public Text(Document document, float fontSize) {
-    this.document = document;
-    this.fontSize = Float.toString(fontSize);
+  public Text(Point point, String text) {
+    this.element = document.createElement(type);
+    this.element.setTextContent(text);
+    this.element.setAttribute("x", Float.toString(point.getX()));
+    this.element.setAttribute("y", Float.toString(point.getY()));
+    this.element.setAttribute("fill", this.color);
+    this.element.setAttribute("font-size", fontSize);
+    this.element.setAttribute("text-anchor", "middle");
+    this.element.setAttribute("alignment-baseline", "middle");
   }
 
-  public Element
-  create(float x, float y, String text) {
-    Element element = this.document.createElement(type);
-    element.setTextContent(text);
-    element.setAttribute("x", Float.toString(x));
-    element.setAttribute("y", Float.toString(y));
-    element.setAttribute("fill", this.color);
-    element.setAttribute("font-size", this.fontSize);
-    element.setAttribute("text-anchor", "middle");
-    element.setAttribute("alignment-baseline", "middle");
-    return element;
-  }
-
-  public Element
-  create(Point point, String text) {
-    Element element = this.document.createElement(type);
-    element.setTextContent(text);
-    element.setAttribute("x", Float.toString(point.getX()));
-    element.setAttribute("y", Float.toString(point.getY()));
-    element.setAttribute("fill", this.color);
-    element.setAttribute("font-size", this.fontSize);
-    element.setAttribute("text-anchor", "middle");
-    element.setAttribute("alignment-baseline", "middle");
-    return element;
+  public static void setFontSize(float fontSize) {
+    Text.fontSize = Float.toString(fontSize);
   }
 
 } 

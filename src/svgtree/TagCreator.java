@@ -42,7 +42,7 @@ public class TagCreator {
     float strokeWidth = radio / 4;
     this.line = new Line(this.document, strokeWidth);
     this.tagSvg = (new Svg(this.document)).create();
-    this.tagTree = this.createElementNS("g");
+    this.tagTree = this.document.createElement("g");
     this.tagSvg.appendChild(this.tagTree);
     this.document.appendChild(this.tagSvg);
   }

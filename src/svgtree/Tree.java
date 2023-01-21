@@ -98,13 +98,11 @@ public class Tree {
     float hypotenuse =
       (float) Math.pow(2, height) * this.diameter;
     Point point1 = point.bottomLeft(margin, hypotenuse);
-    // drawLine(x, y, x1, y1, 1);
+    drawLine(point, point1, 1);
     draw(point1, height - 1);
-    // draw(x1, y1, height - 1);
     Point point2 = point.bottomRight(margin, hypotenuse);
-    // drawLine(x, y, x2, y2, -1);
+    drawLine(point, point2, -1);
     draw(point2, height - 1);
-    // draw(x2, y2, height - 1);
   }
 
   private void
@@ -123,13 +121,17 @@ public class Tree {
     this.tagTree.appendChild(text);
   }
 
+  // TODO: Implementar Point en drawLine
   private void
-  drawLine(float x1, float y1, float x2, float y2, float direction) {
+  drawLine(Point point1, Point point2, float direction) {
     float hypotenuse = this.radio;
-    float xl1 = x1 - direction * this.half;
-    float yl1 = Utils.calculateY(hypotenuse, xl1, x1, y1, 1);
-    float xl2 = x2 + direction * this.half;
-    float yl2 = Utils.calculateY(hypotenuse, xl2, x2, y2, -1);
+    float margin = direction * this.half;
+    Point start = point1.bottomLeft(margin, hypotenuse);
+    Point end = point2.bottomLeft(margin, hypotenuse);
+    float xl1 = start.getX();
+    float yl1 = start.getY();
+    float xl2 = end.getX();
+    float yl2 = end.getY();
     Element line = this.tagCreator.createLine(xl1, yl1, xl2, yl2);
     this.tagTree.appendChild(line);
   }

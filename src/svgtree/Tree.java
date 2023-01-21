@@ -70,30 +70,18 @@ public class Tree {
     float y = this.diameter;
     Point point = new Point(x, y);
     draw(point, this.height);
-    configureViewBox(point, this.radio, this.height);
-  }
-
-  private void
-  configureViewBox(Point point, float radio, float treeHeight) {
-    float diameter = 2 * radio;
-    float power = (float) Math.pow(2, treeHeight);
+    // Establece los límites de vista del svg.
+    float power = (float) Math.pow(2, this.height);
     float nextPower = 2 * power;
-    float xshift = (power - 1) * diameter + diameter;
-    float distance = (nextPower - 2) * diameter + diameter;
-    Point extreme = point.bottomRight(xshift, distance);
-    float minX = 0;
-    float minY = 0;
-    float width = extreme.getX();
-    float height = extreme.getY();
-    Float[] numbers = {minX, minY, width, height};
-    String viewBox = Arrays
-      .stream(numbers)
-      .map(number -> Float.toString(number))
-      .reduce("", (result, value)
-          -> result.equals("") ? value : result + " " + value);
+    float xshift = (power - 1) * diameter;
+    float distance = (nextPower - 2) * diameter;
+    Point dim = point
+      .bottomRight(xshift, distance)
+      .translate(diameter, diameter);
+    String viewBox = "0 0 " + dim.getX() + " " + dim.getY();
     this.svg.setAttribute("viewBox", viewBox);
   }
-  
+
   private void
   draw(Point point, int height) {
     Element circle, text;

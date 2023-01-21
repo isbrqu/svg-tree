@@ -7,15 +7,15 @@ import svgtree.PseudoTag;
 public class Text extends PseudoTag {
 
   private static String fontSize;
-  private final String type = "text";
-  private final String color = "#000";
+  private static final String TYPE = "text";
+  private static final String COLOR = "#000";
 
   public Text(Point point, String text) {
-    this.element = document.createElement(type);
+    this.element = document.createElement(TYPE);
     this.element.setTextContent(text);
     this.element.setAttribute("x", Float.toString(point.getX()));
     this.element.setAttribute("y", Float.toString(point.getY()));
-    this.element.setAttribute("fill", this.color);
+    this.element.setAttribute("fill", COLOR);
     this.element.setAttribute("font-size", fontSize);
     this.element.setAttribute("text-anchor", "middle");
     this.element.setAttribute("alignment-baseline", "middle");

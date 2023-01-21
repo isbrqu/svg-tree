@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.lang.Math;
+
 import svgtree.Circle;
 import svgtree.Text;
 import svgtree.Svg;
@@ -32,8 +33,7 @@ public class Tree {
   private Line line;
   private Document document;
 
-  public Tree(int height, float radio) 
-  throws ParserConfigurationException {
+  public Tree(int height, float radio) throws ParserConfigurationException {
     this.height = height;
     this.radio = radio;
     this.diameter = 2 * radio;
@@ -52,19 +52,16 @@ public class Tree {
     Circle.setDocument(document);
     Circle.setRadio(radio);
     Text.setDocument(document);
-    Text.setFontSize(radio + radio / 2);
+    Text.setFontSize(radio + half);
     Line.setDocument(document);
     Line.setStrokeWidth(half / 2);
   }
 
-  public Tree(int height)
-  throws ParserConfigurationException {
+  public Tree(int height) throws ParserConfigurationException {
     this(height, 0.5f);
   }
 
-  public void
-  drawTree() 
-  throws ParserConfigurationException {
+  public void drawTree() throws ParserConfigurationException {
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     Point point = new Point(x, y);
@@ -83,8 +80,7 @@ public class Tree {
     this.svg.setAttribute("viewBox", viewBox);
   }
 
-  private void
-  draw(Point point, int height) {
+  private void draw(Point point, int height) {
     Point textPoint = point.translateInY(this.half);
     Circle circle = new Circle(point);
     this.tagTree.appendChild(circle.getElement());
@@ -110,9 +106,7 @@ public class Tree {
     draw(center, height - 1);
   }
 
-  public void
-  save(String filename)
-  throws TransformerException {
+  public void save(String filename) throws TransformerException {
     DOMSource source = new DOMSource(document);
     Transformer transformer = TransformerFactory
       .newInstance()

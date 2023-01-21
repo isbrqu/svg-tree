@@ -15,8 +15,7 @@ public class Svg {
     this.document = document;
   }
 
-  public Element
-  create() {
+  public Element create() {
     Element element = this.document.createElementNS(URI, TYPE);
     element.setAttribute("style", STYLE);
     return element;

@@ -47,12 +47,14 @@ public class Tree {
     this.document.appendChild(svg);
     this.tagTree = document.createElement("g");
     this.svg.appendChild(tagTree);
+    // Posible efecto secundario en PseudoTag.
+    // Investigar: Cambiar document entre elementos distintos.
     Circle.setDocument(document);
     Circle.setRadio(radio);
     Text.setDocument(document);
     Text.setFontSize(radio + radio / 2);
-    float strokeWidth = half / 2;
-    this.line = new Line(document, strokeWidth);
+    Line.setDocument(document);
+    Line.setStrokeWidth(half / 2);
   }
 
   public Tree(int height)
@@ -96,15 +98,15 @@ public class Tree {
     center = point.bottomLeft(xshift, distance);
     start = point.bottomLeft(this.half, this.radio);
     end = center.bottomLeft(this.half, this.radio);
-    Element line1 = this.line.create(start, end);
-    this.tagTree.appendChild(line1);
+    Line line1 = new Line(start, end);
+    this.tagTree.appendChild(line1.getElement());
     draw(center, height - 1);
     // right node
     center = point.bottomRight(xshift, distance);
     start = point.bottomRight(this.half, this.radio);
     end = center.bottomRight(this.half, this.radio);
-    Element line2 = this.line.create(start, end);
-    this.tagTree.appendChild(line2);
+    Line line2 = new Line(start, end);
+    this.tagTree.appendChild(line2.getElement());
     draw(center, height - 1);
   }
 

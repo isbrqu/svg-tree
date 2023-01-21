@@ -19,8 +19,12 @@ public class Point {
     return this.y;
   }
 
-  public void translateInX(float x) {
-    this.x += x;
+  public Point translate(float dx, float dy) {
+    return new Point(this.x + dx, this.y + dy);
+  }
+
+  public Point translateInX(float distance) {
+    return new Point(this.x + distance, this.y);
   }
 
   public Point translateInY(float distance) {

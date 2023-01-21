@@ -4,6 +4,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -11,10 +13,10 @@ import org.w3c.dom.Element;
 import java.lang.Math;
 import java.util.HashMap;
 import java.util.Arrays;
-import svgtree.TagCreator;
 import svgtree.Utils;
 import svgtree.Circle;
 import svgtree.Text;
+import svgtree.Svg;
 import svgtree.Line;
 
 public class Tree {
@@ -29,10 +31,10 @@ public class Tree {
   private float radio;
   private float diameter;
   private float half;
-  private TagCreator tagCreator;
   private Circle circle;
   private Text text;
   private Line line;
+  private Document document;
 
   public Tree(int height, float radio) 
   throws ParserConfigurationException {
@@ -40,14 +42,19 @@ public class Tree {
     this.radio = radio;
     this.diameter = 2 * radio;
     this.half = radio / 2;
-    this.tagCreator = new TagCreator(this.radio);
-    this.svg = this.tagCreator.getTagSVG();
-    this.tagTree = this.tagCreator.getTagTree();
+    // Tags and elements.
+    this.document = DocumentBuilderFactory
+      .newInstance()
+      .newDocumentBuilder()
+      .newDocument();
+    this.svg = (new Svg(document)).create();
+    this.document.appendChild(svg);
+    this.tagTree = document.createElement("g");
+    this.svg.appendChild(tagTree);
+    this.circle = new Circle(document, radio);
     float fontSize = radio + radio / 2;
-    Document document = this.tagCreator.getDocument();
-    this.circle = new Circle(document, this.radio);
     this.text = new Text(document, fontSize);
-    float strokeWidth = radio / 4;
+    float strokeWidth = half / 2;
     this.line = new Line(document, strokeWidth);
   }
 
@@ -63,13 +70,13 @@ public class Tree {
     float y = this.diameter;
     Point point = new Point(x, y);
     draw(point, this.height);
-    configureViewBox(x, y, this.radio, this.height);
+    configureViewBox(point, this.radio, this.height);
   }
 
   private void
-  configureViewBox(float x, float y, float radio, float treeHeight) {
+  configureViewBox(Point point, float radio, float treeHeight) {
     HashMap<String,Float> coordinates
-      = coordinates(x, y, radio, treeHeight);
+      = coordinates(point, radio, treeHeight);
     float minX = 0;
     float minY = 0;
     float width = coordinates.get("cx") + this.diameter;
@@ -129,7 +136,6 @@ public class Tree {
   public void
   save(String filename) {
     try {
-      Document document = this.tagCreator.getDocument();
       DOMSource source = new DOMSource(document);
       Transformer transformer = TransformerFactory
         .newInstance()

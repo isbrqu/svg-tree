@@ -39,4 +39,8 @@ public class Point {
     return new Point(x, y);
   }
 
+  public String toString() {
+    return "(" + this.x + ", " + this.y + ")";
+  }
+
 } 

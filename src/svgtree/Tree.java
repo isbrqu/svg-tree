@@ -75,12 +75,16 @@ public class Tree {
 
   private void
   configureViewBox(Point point, float radio, float treeHeight) {
-    HashMap<String,Float> coordinates
-      = coordinates(point, radio, treeHeight);
+    float diameter = 2 * radio;
+    float power = (float) Math.pow(2, treeHeight);
+    float nextPower = 2 * power;
+    float xshift = (power - 1) * diameter + diameter;
+    float distance = (nextPower - 2) * diameter + diameter;
+    Point extreme = point.bottomRight(xshift, distance);
     float minX = 0;
     float minY = 0;
-    float width = coordinates.get("cx") + this.diameter;
-    float height = coordinates.get("cy") + this.diameter;
+    float width = extreme.getX();
+    float height = extreme.getY();
     Float[] numbers = {minX, minY, width, height};
     String viewBox = Arrays
       .stream(numbers)
@@ -90,21 +94,6 @@ public class Tree {
     this.svg.setAttribute("viewBox", viewBox);
   }
   
-  private HashMap<String,Float>
-  coordinates(float x2, float y2, float radio, float height) {
-    HashMap<String,Float> coordinates = new HashMap<String,Float>();
-    float diameter = 2 * radio;
-    float nextPower = (float) Math.pow(2, height + 1);
-    float x1 = (nextPower - 1) * diameter;
-    float hypotenuse = (nextPower - 2) * diameter;
-    float opposite = x1 - x2;
-    float adjacent = Utils.calculateLeg(hypotenuse, opposite);
-    float y1 = adjacent + y2;
-    coordinates.put("cx", x1);
-    coordinates.put("cy", y1);
-    return coordinates;
-  }
-
   private void
   draw(Point point, int height) {
     Element circle, text;

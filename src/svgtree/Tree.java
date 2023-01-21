@@ -15,6 +15,7 @@ import svgtree.TagCreator;
 import svgtree.Utils;
 import svgtree.Circle;
 import svgtree.Text;
+import svgtree.Line;
 
 public class Tree {
 
@@ -31,6 +32,7 @@ public class Tree {
   private TagCreator tagCreator;
   private Circle circle;
   private Text text;
+  private Line line;
 
   public Tree(int height, float radio) 
   throws ParserConfigurationException {
@@ -45,6 +47,8 @@ public class Tree {
     Document document = this.tagCreator.getDocument();
     this.circle = new Circle(document, this.radio);
     this.text = new Text(document, fontSize);
+    float strokeWidth = radio / 4;
+    this.line = new Line(document, strokeWidth);
   }
 
   public Tree(int height)
@@ -96,39 +100,30 @@ public class Tree {
 
   private void
   draw(Point point, int height) {
-    float x = point.getX();
-    float y = point.getY();
+    Element circle, text;
     Point textPoint = point.translateInY(this.half);
-    Element circle = this.circle.create(point);
+    circle = this.circle.create(point);
     this.tagTree.appendChild(circle);
-    Element text =
-      this.text.create(textPoint, Integer.toString(height));
+    text = this.text.create(textPoint, Integer.toString(height));
     this.tagTree.appendChild(text);
     if (height == 0) return;
-    float margin = (float) Math.pow(2, height) * this.radio;
-    float hypotenuse =
-      (float) Math.pow(2, height) * this.diameter;
-    Point point1 = point.bottomLeft(margin, hypotenuse);
-    drawLine(point, point1, 1);
-    draw(point1, height - 1);
-    Point point2 = point.bottomRight(margin, hypotenuse);
-    drawLine(point, point2, -1);
-    draw(point2, height - 1);
-  }
-
-  // TODO: Implementar Point en drawLine
-  private void
-  drawLine(Point point1, Point point2, float direction) {
-    float hypotenuse = this.radio;
-    float margin = direction * this.half;
-    Point start = point1.bottomLeft(margin, hypotenuse);
-    Point end = point2.bottomLeft(margin, hypotenuse);
-    float xl1 = start.getX();
-    float yl1 = start.getY();
-    float xl2 = end.getX();
-    float yl2 = end.getY();
-    Element line = this.tagCreator.createLine(xl1, yl1, xl2, yl2);
-    this.tagTree.appendChild(line);
+    Point center, start, end;
+    float xshift = (float) Math.pow(2, height) * this.radio;
+    float distance = (float) Math.pow(2, height) * this.diameter;
+    // left node
+    center = point.bottomLeft(xshift, distance);
+    start = point.bottomLeft(this.half, this.radio);
+    end = center.bottomLeft(this.half, this.radio);
+    Element line1 = this.line.create(start, end);
+    this.tagTree.appendChild(line1);
+    draw(center, height - 1);
+    // right node
+    center = point.bottomRight(xshift, distance);
+    start = point.bottomRight(this.half, this.radio);
+    end = center.bottomRight(this.half, this.radio);
+    Element line2 = this.line.create(start, end);
+    this.tagTree.appendChild(line2);
+    draw(center, height - 1);
   }
 
   public void

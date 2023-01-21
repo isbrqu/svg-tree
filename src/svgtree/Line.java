@@ -27,4 +27,16 @@ public class Line {
     return element;
   }
 
+  public Element
+  create(Point start, Point end) {
+    Element element = this.document.createElement(type);
+    element.setAttribute("x1", Float.toString(start.getX()));
+    element.setAttribute("y1", Float.toString(start.getY()));
+    element.setAttribute("x2", Float.toString(end.getX()));
+    element.setAttribute("y2", Float.toString(end.getY()));
+    element.setAttribute("stroke", this.color);
+    element.setAttribute("stroke-width", this.strokeWidth);
+    return element;
+  }
+
 } 

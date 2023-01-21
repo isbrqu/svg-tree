@@ -2,47 +2,24 @@ package svgtree;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import svgtree.PseudoTag;
 
-public class Circle {
+public class Circle extends PseudoTag {
 
+  private static String radio;
   private final String type = "circle";
   private final String color = "#fff";
-  private String radio;
-  private Document document;
 
-  public Circle(Document document, float radio) {
-    this.document = document;
-    this.radio = Float.toString(radio);
+  public Circle(Point point) {
+    this.element = document.createElement(type);
+    this.element.setAttribute("cx", Float.toString(point.getX()));
+    this.element.setAttribute("cy", Float.toString(point.getY()));
+    this.element.setAttribute("r", radio);
+    this.element.setAttribute("fill", this.color);
   }
 
-  public Element
-  create(float x, float y) {
-    Element element = this.document.createElement(type);
-    element.setAttribute("cx", Float.toString(x));
-    element.setAttribute("cy", Float.toString(y));
-    element.setAttribute("r", radio);
-    element.setAttribute("fill", this.color);
-    return element;
-  }
-
-  public Element
-  create(Point point) {
-    Element element = this.document.createElement(type);
-    element.setAttribute("cx", Float.toString(point.getX()));
-    element.setAttribute("cy", Float.toString(point.getY()));
-    element.setAttribute("r", this.radio);
-    element.setAttribute("fill", this.color);
-    return element;
-  }
-
-  public Element
-  create(float x, float y, float radio) {
-    Element element = this.document.createElement(type);
-    element.setAttribute("cx", Float.toString(x));
-    element.setAttribute("cy", Float.toString(y));
-    element.setAttribute("r", Float.toString(radio));
-    element.setAttribute("fill", this.color);
-    return element;
+  public static void setRadio(float radio) {
+    Circle.radio = Float.toString(radio);
   }
 
 } 

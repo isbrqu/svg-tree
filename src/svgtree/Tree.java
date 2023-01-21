@@ -15,12 +15,13 @@ import svgtree.Circle;
 import svgtree.Text;
 import svgtree.Svg;
 import svgtree.Line;
+import svgtree.TagTree;
 
 public class Tree {
 
   private Document doc;
   private Element svg;
-  private Element tagTree;
+  private TagTree tagTree;
 
   private int x;
   private int y;
@@ -45,8 +46,8 @@ public class Tree {
       .newDocument();
     this.svg = (new Svg(document)).create();
     this.document.appendChild(svg);
-    this.tagTree = document.createElement("g");
-    this.svg.appendChild(tagTree);
+    this.tagTree = new TagTree(document);
+    this.svg.appendChild(tagTree.getElement());
     // Posible efecto secundario en PseudoTag.
     // Investigar: Cambiar document entre elementos distintos.
     Circle.setDocument(document);
@@ -83,9 +84,9 @@ public class Tree {
   private void draw(Point point, int height) {
     Point textPoint = point.translateInY(this.half);
     Circle circle = new Circle(point);
-    this.tagTree.appendChild(circle.getElement());
+    this.tagTree.appendChild(circle);
     Text text = new Text(textPoint, Integer.toString(height));
-    this.tagTree.appendChild(text.getElement());
+    this.tagTree.appendChild(text);
     if (height == 0) return;
     Point center, start, end;
     float xshift = (float) Math.pow(2, height) * this.radio;
@@ -95,14 +96,14 @@ public class Tree {
     start = point.bottomLeft(this.half, this.radio);
     end = center.bottomLeft(this.half, this.radio);
     Line line1 = new Line(start, end);
-    this.tagTree.appendChild(line1.getElement());
+    this.tagTree.appendChild(line1);
     draw(center, height - 1);
     // right node
     center = point.bottomRight(xshift, distance);
     start = point.bottomRight(this.half, this.radio);
     end = center.bottomRight(this.half, this.radio);
     Line line2 = new Line(start, end);
-    this.tagTree.appendChild(line2.getElement());
+    this.tagTree.appendChild(line2);
     draw(center, height - 1);
   }
 

@@ -26,6 +26,16 @@ public class Circle {
   }
 
   public Element
+  create(Point point) {
+    Element element = this.document.createElement(type);
+    element.setAttribute("cx", Float.toString(point.getX()));
+    element.setAttribute("cy", Float.toString(point.getY()));
+    element.setAttribute("r", this.radio);
+    element.setAttribute("fill", this.color);
+    return element;
+  }
+
+  public Element
   create(float x, float y, float radio) {
     Element element = this.document.createElement(type);
     element.setAttribute("cx", Float.toString(x));

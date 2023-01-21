@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Arrays;
 import svgtree.TagCreator;
 import svgtree.Utils;
+import svgtree.Circle;
 
 public class Tree {
 
@@ -27,6 +28,7 @@ public class Tree {
   private float diameter;
   private float half;
   private TagCreator tagCreator;
+  private Circle circle;
 
   public Tree(int height, float radio) 
   throws ParserConfigurationException {
@@ -37,6 +39,8 @@ public class Tree {
     this.tagCreator = new TagCreator(this.radio);
     this.svg = this.tagCreator.getTagSVG();
     this.tagTree = this.tagCreator.getTagTree();
+    Document document = this.tagCreator.getDocument();
+    this.circle = new Circle(document, this.radio);
   }
 
   public Tree(int height)
@@ -107,9 +111,7 @@ public class Tree {
 
   private void
   drawCircle(Point point, int height) {
-    float cx = point.getX();
-    float cy = point.getY();
-    Element root = this.tagCreator.createCircle(cx, cy, this.radio);
+    Element root = this.circle.create(point);
     this.tagTree.appendChild(root);
   }
 

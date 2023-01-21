@@ -34,8 +34,6 @@ public class Tree {
     this.radio = radio;
     this.diameter = 2 * radio;
     this.half = radio / 2;
-    float x = (float) Math.pow(2, this.height + 1) * this.radio;
-    float y = this.diameter;
     this.tagCreator = new TagCreator(this.radio);
     this.svg = this.tagCreator.getTagSVG();
     this.tagTree = this.tagCreator.getTagTree();

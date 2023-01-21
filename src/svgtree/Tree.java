@@ -49,8 +49,9 @@ public class Tree {
   throws ParserConfigurationException {
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
+    Point point = new Point(x, y);
+    draw(point, this.height);
     configureViewBox(x, y, this.radio, this.height);
-    draw(x, y, this.height);
   }
 
   private void
@@ -86,31 +87,29 @@ public class Tree {
   }
 
   private void
-  draw(float x, float y, int height) {
-    drawNode(x, y, height);
+  draw(Point point, int height) {
+    float x = point.getX();
+    float y = point.getY();
+    drawCircle(point, height);
+    drawText(x, y + this.half, height);
     if (height == 0) return;
     float margin = (float) Math.pow(2, height) * this.radio;
     float hypotenuse =
       (float) Math.pow(2, height) * this.diameter;
-    float x1 = x - margin;
-    float y1 = Utils.calculateY(hypotenuse, x1, x, y, 1);
-    drawLine(x, y, x1, y1, 1);
-    draw(x1, y1, height - 1);
-    float x2 = x + margin;
-    float y2 = Utils.calculateY(hypotenuse, x2, x, y, 1);
-    drawLine(x, y, x2, y2, -1);
-    draw(x2, y2, height - 1);
+    Point point1 = point.bottomLeft(margin, hypotenuse);
+    // drawLine(x, y, x1, y1, 1);
+    drawCircle(point1, height);
+    // draw(x1, y1, height - 1);
+    Point point2 = point.bottomRight(margin, hypotenuse);
+    // drawLine(x, y, x2, y2, -1);
+    drawCircle(point2, height);
+    // draw(x2, y2, height - 1);
   }
 
   private void
-  drawNode(float cx, float cy, int height) {
-    drawCircle(cx, cy, height);
-    drawText(cx, cy + this.half, height);
-  }
-
-  private void
-  drawCircle(float cx, float cy, int height) {
-    String color = "#fff";
+  drawCircle(Point point, int height) {
+    float cx = point.getX();
+    float cy = point.getY();
     Element root = this.tagCreator.createCircle(cx, cy, this.radio);
     this.tagTree.appendChild(root);
   }

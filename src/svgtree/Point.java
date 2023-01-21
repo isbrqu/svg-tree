@@ -1,4 +1,5 @@
 package svgtree;
+import svgtree.Utils;
 
 public class Point {
 
@@ -24,6 +25,18 @@ public class Point {
 
   public void translateInY(float y) {
     this.y += y;
+  }
+
+  public Point bottomLeft(float margin, float distance) {
+    float x = this.x - margin;
+    float y = Utils.calculateY(distance, x, this.x, this.y, 1);
+    return new Point(x, y);
+  }
+
+  public Point bottomRight(float margin, float distance) {
+    float x = this.x + margin;
+    float y = Utils.calculateY(distance, x, this.x, this.y, 1);
+    return new Point(x, y);
   }
 
 } 

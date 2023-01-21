@@ -23,8 +23,8 @@ public class Point {
     this.x += x;
   }
 
-  public void translateInY(float y) {
-    this.y += y;
+  public Point translateInY(float distance) {
+    return new Point(this.x, this.y + distance);
   }
 
   public Point bottomLeft(float margin, float distance) {

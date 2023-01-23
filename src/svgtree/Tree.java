@@ -19,20 +19,14 @@ import svgtree.TagTree;
 
 public class Tree {
 
-  private Document doc;
-  private Element svg;
-  private TagTree tagTree;
-
-  private int x;
-  private int y;
   private int height;
   private float radio;
   private float diameter;
   private float half;
-  private Circle circle;
-  private Text text;
-  private Line line;
+
   private Document document;
+  private Element svg;
+  private TagTree tagTree;
 
   public Tree(int height, float radio) throws ParserConfigurationException {
     this.height = height;

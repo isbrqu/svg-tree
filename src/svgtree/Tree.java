@@ -85,30 +85,36 @@ public class Tree {
   private void draw(Point point, NodoAVL nodo) {
     Point textPoint = point.translateInY(this.half);
     Circle circle = new Circle(point);
+    String elemento = nodo.getElemento().toString();
     this.tagTree.appendChild(circle);
-    Text text = new Text(textPoint, nodo.getElemento().toString());
+    Text text = new Text(textPoint, elemento);
     this.tagTree.appendChild(text);
+    // children
     int height = nodo.getAltura();
     if (height == 0) return;
     Point center, start, end;
     float xshift = (float) Math.pow(2, height) * this.radio;
     float distance = (float) Math.pow(2, height) * this.diameter;
     // left node
-    center = point.bottomLeft(xshift, distance);
-    start = point.bottomLeft(this.half, this.radio);
-    end = center.bottomLeft(this.half, this.radio);
-    Line line1 = new Line(start, end);
-    this.tagTree.appendChild(line1);
     NodoAVL izquierdo = (NodoAVL) nodo.getIzquierdo();
-    draw(center, izquierdo);
+    if (izquierdo != null) {
+      center = point.bottomLeft(xshift, distance);
+      start = point.bottomLeft(this.half, this.radio);
+      end = center.bottomLeft(this.half, this.radio);
+      Line line1 = new Line(start, end);
+      this.tagTree.appendChild(line1);
+      draw(center, izquierdo);
+    }
     // right node
-    center = point.bottomRight(xshift, distance);
-    start = point.bottomRight(this.half, this.radio);
-    end = center.bottomRight(this.half, this.radio);
-    Line line2 = new Line(start, end);
-    this.tagTree.appendChild(line2);
     NodoAVL derecho = (NodoAVL) nodo.getDerecho();
-    draw(center, derecho);
+    if (derecho != null) {
+      center = point.bottomRight(xshift, distance);
+      start = point.bottomRight(this.half, this.radio);
+      end = center.bottomRight(this.half, this.radio);
+      Line line2 = new Line(start, end);
+      this.tagTree.appendChild(line2);
+      draw(center, derecho);
+    }
   }
 
   public void save(String filename)

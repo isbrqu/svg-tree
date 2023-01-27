@@ -56,7 +56,7 @@ public class Tree {
     Line.setStrokeWidth(half / 2);
   }
 
-  public Tree(ArbolAVL arbol, int height)
+  public Tree(ArbolAVL arbol)
   throws ParserConfigurationException {
     this(arbol, 0.5f);
   }

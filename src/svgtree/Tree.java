@@ -16,7 +16,8 @@ import svgtree.Text;
 import svgtree.Svg;
 import svgtree.Line;
 import svgtree.TagTree;
-import conjuntistas.arbol.avl.ArbolAVL;
+import conjuntistas.arbol.bb.ArbolBinarioBase;
+import conjuntistas.arbol.bb.Nodo;
 import conjuntistas.arbol.avl.NodoAVL;
 
 public class Tree {
@@ -26,20 +27,20 @@ public class Tree {
   private float diameter;
   private float half;
 
-  private NodoAVL raiz;
+  private ArbolBinarioBase arbol;
   private Document document;
   private Element svg;
   private TagTree tagTree;
 
-  public Tree(ArbolAVL arbol, float radio)
+  public Tree(ArbolBinarioBase arbol, float radio)
   throws ParserConfigurationException {
-    this.raiz = (NodoAVL) arbol.getRaiz();
+    this.arbol = arbol;
     this.radio = radio;
     this.diameter = 2 * radio;
     this.half = radio / 2;
   }
 
-  public Tree(ArbolAVL arbol)
+  public Tree(ArbolBinarioBase arbol)
   throws ParserConfigurationException {
     this(arbol, 0.5f);
   }
@@ -68,11 +69,11 @@ public class Tree {
     Line.setStrokeWidth(this.half / 2);
   }
 
-  public void initViewBox(Point point) {
+  public void initViewBox(Point point, Nodo raiz) {
     // Establece los límites de vista del svg.
     // Cálcula el punto inferior derecho y hace un corrimiento
     // a la derecha.
-    int height = this.raiz.getAltura();
+    int height = ((NodoAVL) raiz).getAltura();
     float power = (float) Math.pow(2, height);
     float nextPower = 2 * power;
     float xshift = (power - 1) * diameter;
@@ -88,12 +89,13 @@ public class Tree {
   throws ParserConfigurationException {
     this.initDocument();
     this.initElement();
-    int height = this.raiz.getAltura();
+    NodoAVL raiz = (NodoAVL) this.arbol.getRaiz();
+    int height = raiz.getAltura();
     float x = (float) Math.pow(2, height + 1) * this.radio;
     float y = this.diameter;
     Point point = new Point(x, y);
-    this.initViewBox(point);
-    draw(point, this.raiz, height);
+    this.initViewBox(point, raiz);
+    draw(point, raiz, height);
   }
 
   private void draw(Point point, NodoAVL nodo, int level) {

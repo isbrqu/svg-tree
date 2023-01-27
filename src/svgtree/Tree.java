@@ -31,7 +31,8 @@ public class Tree {
   private Element svg;
   private TagTree tagTree;
 
-  public Tree(ArbolAVL arbol, float radio) throws ParserConfigurationException {
+  public Tree(ArbolAVL arbol, float radio)
+  throws ParserConfigurationException {
     this.arbol = arbol;
     int height = ((NodoAVL) arbol.getRaiz()).getAltura();
     this.height = height;
@@ -57,11 +58,13 @@ public class Tree {
     Line.setStrokeWidth(half / 2);
   }
 
-  public Tree(ArbolAVL arbol, int height) throws ParserConfigurationException {
+  public Tree(ArbolAVL arbol, int height)
+  throws ParserConfigurationException {
     this(arbol, 0.5f);
   }
 
-  public void drawTree() throws ParserConfigurationException {
+  public void drawTree()
+  throws ParserConfigurationException {
     float x = (float) Math.pow(2, this.height + 1) * this.radio;
     float y = this.diameter;
     Point point = new Point(x, y);
@@ -106,7 +109,8 @@ public class Tree {
     draw(center, height - 1);
   }
 
-  public void save(String filename) throws TransformerException {
+  public void save(String filename)
+  throws TransformerException {
     DOMSource source = new DOMSource(document);
     Transformer transformer = TransformerFactory
       .newInstance()

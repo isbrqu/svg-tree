@@ -37,23 +37,6 @@ public class Tree {
     this.radio = radio;
     this.diameter = 2 * radio;
     this.half = radio / 2;
-    // Tags and elements.
-    this.document = DocumentBuilderFactory
-      .newInstance()
-      .newDocumentBuilder()
-      .newDocument();
-    this.svg = (new Svg(document)).create();
-    this.document.appendChild(svg);
-    this.tagTree = new TagTree(document);
-    this.svg.appendChild(tagTree.getElement());
-    // Posible efecto secundario en PseudoTag.
-    // Investigar: Cambiar document entre elementos distintos.
-    Circle.setDocument(document);
-    Circle.setRadio(radio);
-    Text.setDocument(document);
-    Text.setFontSize(radio + half);
-    Line.setDocument(document);
-    Line.setStrokeWidth(half / 2);
   }
 
   public Tree(ArbolAVL arbol)
@@ -61,16 +44,35 @@ public class Tree {
     this(arbol, 0.5f);
   }
 
-  public void drawTree()
+  public void initDocument()
   throws ParserConfigurationException {
-    int height = this.raiz.getAltura();
-    float x = (float) Math.pow(2, height + 1) * this.radio;
-    float y = this.diameter;
-    Point point = new Point(x, y);
-    draw(point, this.raiz, height);
+    // Tags and elements.
+    this.document = DocumentBuilderFactory
+      .newInstance()
+      .newDocumentBuilder()
+      .newDocument();
+    this.svg = (new Svg(this.document)).create();
+    this.document.appendChild(this.svg);
+    this.tagTree = new TagTree(this.document);
+    this.svg.appendChild(this.tagTree.getElement());
+  }
+
+  public void initElement() {
+    // Posible efecto secundario en PseudoTag.
+    // Investigar: Cambiar document entre elementos distintos.
+    Circle.setDocument(this.document);
+    Circle.setRadio(this.radio);
+    Text.setDocument(this.document);
+    Text.setFontSize(this.radio + this.half);
+    Line.setDocument(this.document);
+    Line.setStrokeWidth(this.half / 2);
+  }
+
+  public void initViewBox(Point point) {
     // Establece los límites de vista del svg.
     // Cálcula el punto inferior derecho y hace un corrimiento
     // a la derecha.
+    int height = this.raiz.getAltura();
     float power = (float) Math.pow(2, height);
     float nextPower = 2 * power;
     float xshift = (power - 1) * diameter;
@@ -80,6 +82,18 @@ public class Tree {
       .translate(diameter, diameter);
     String viewBox = "0 0 " + dim.getX() + " " + dim.getY();
     this.svg.setAttribute("viewBox", viewBox);
+  }
+
+  public void drawTree()
+  throws ParserConfigurationException {
+    this.initDocument();
+    this.initElement();
+    int height = this.raiz.getAltura();
+    float x = (float) Math.pow(2, height + 1) * this.radio;
+    float y = this.diameter;
+    Point point = new Point(x, y);
+    this.initViewBox(point);
+    draw(point, this.raiz, height);
   }
 
   private void draw(Point point, NodoAVL nodo, int level) {

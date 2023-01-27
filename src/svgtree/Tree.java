@@ -26,16 +26,14 @@ public class Tree {
   private float diameter;
   private float half;
 
-  private ArbolAVL arbol;
+  private NodoAVL raiz;
   private Document document;
   private Element svg;
   private TagTree tagTree;
 
   public Tree(ArbolAVL arbol, float radio)
   throws ParserConfigurationException {
-    this.arbol = arbol;
-    int height = ((NodoAVL) arbol.getRaiz()).getAltura();
-    this.height = height;
+    this.raiz = (NodoAVL) arbol.getRaiz();
     this.radio = radio;
     this.diameter = 2 * radio;
     this.half = radio / 2;
@@ -65,14 +63,15 @@ public class Tree {
 
   public void drawTree()
   throws ParserConfigurationException {
-    float x = (float) Math.pow(2, this.height + 1) * this.radio;
+    int height = this.raiz.getAltura();
+    float x = (float) Math.pow(2, height + 1) * this.radio;
     float y = this.diameter;
     Point point = new Point(x, y);
-    draw(point, this.height);
+    draw(point, this.raiz);
     // Establece los límites de vista del svg.
     // Cálcula el punto inferior derecho y hace un corrimiento
     // a la derecha.
-    float power = (float) Math.pow(2, this.height);
+    float power = (float) Math.pow(2, height);
     float nextPower = 2 * power;
     float xshift = (power - 1) * diameter;
     float distance = (nextPower - 2) * diameter;
@@ -83,30 +82,31 @@ public class Tree {
     this.svg.setAttribute("viewBox", viewBox);
   }
 
-  private void draw(Point point, int height) {
+  private void draw(Point point, NodoAVL nodo) {
     Point textPoint = point.translateInY(this.half);
     Circle circle = new Circle(point);
     this.tagTree.appendChild(circle);
-    Text text = new Text(textPoint, Integer.toString(height));
+    Text text = new Text(textPoint, nodo.getElemento().toString());
     this.tagTree.appendChild(text);
-    if (height == 0) return;
-    Point center, start, end;
-    float xshift = (float) Math.pow(2, height) * this.radio;
-    float distance = (float) Math.pow(2, height) * this.diameter;
-    // left node
-    center = point.bottomLeft(xshift, distance);
-    start = point.bottomLeft(this.half, this.radio);
-    end = center.bottomLeft(this.half, this.radio);
-    Line line1 = new Line(start, end);
-    this.tagTree.appendChild(line1);
-    draw(center, height - 1);
-    // right node
-    center = point.bottomRight(xshift, distance);
-    start = point.bottomRight(this.half, this.radio);
-    end = center.bottomRight(this.half, this.radio);
-    Line line2 = new Line(start, end);
-    this.tagTree.appendChild(line2);
-    draw(center, height - 1);
+    // return;
+    // if (height == 0) return;
+    // Point center, start, end;
+    // float xshift = (float) Math.pow(2, height) * this.radio;
+    // float distance = (float) Math.pow(2, height) * this.diameter;
+    // // left node
+    // center = point.bottomLeft(xshift, distance);
+    // start = point.bottomLeft(this.half, this.radio);
+    // end = center.bottomLeft(this.half, this.radio);
+    // Line line1 = new Line(start, end);
+    // this.tagTree.appendChild(line1);
+    // draw(center, height - 1);
+    // // right node
+    // center = point.bottomRight(xshift, distance);
+    // start = point.bottomRight(this.half, this.radio);
+    // end = center.bottomRight(this.half, this.radio);
+    // Line line2 = new Line(start, end);
+    // this.tagTree.appendChild(line2);
+    // draw(center, height - 1);
   }
 
   public void save(String filename)

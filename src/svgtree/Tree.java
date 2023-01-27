@@ -67,7 +67,7 @@ public class Tree {
     float x = (float) Math.pow(2, height + 1) * this.radio;
     float y = this.diameter;
     Point point = new Point(x, y);
-    draw(point, this.raiz);
+    draw(point, this.raiz, height);
     // Establece los límites de vista del svg.
     // Cálcula el punto inferior derecho y hace un corrimiento
     // a la derecha.
@@ -82,7 +82,7 @@ public class Tree {
     this.svg.setAttribute("viewBox", viewBox);
   }
 
-  private void draw(Point point, NodoAVL nodo) {
+  private void draw(Point point, NodoAVL nodo, int level) {
     Point textPoint = point.translateInY(this.half);
     Circle circle = new Circle(point);
     String elemento = nodo.getElemento().toString();
@@ -93,8 +93,8 @@ public class Tree {
     int height = nodo.getAltura();
     if (height == 0) return;
     Point center, start, end;
-    float xshift = (float) Math.pow(2, height) * this.radio;
-    float distance = (float) Math.pow(2, height) * this.diameter;
+    float xshift = (float) Math.pow(2, level) * this.radio;
+    float distance = (float) Math.pow(2, level) * this.diameter;
     // left node
     NodoAVL izquierdo = (NodoAVL) nodo.getIzquierdo();
     if (izquierdo != null) {
@@ -103,7 +103,7 @@ public class Tree {
       end = center.bottomLeft(this.half, this.radio);
       Line line1 = new Line(start, end);
       this.tagTree.appendChild(line1);
-      draw(center, izquierdo);
+      draw(center, izquierdo, level - 1);
     }
     // right node
     NodoAVL derecho = (NodoAVL) nodo.getDerecho();
@@ -113,7 +113,7 @@ public class Tree {
       end = center.bottomRight(this.half, this.radio);
       Line line2 = new Line(start, end);
       this.tagTree.appendChild(line2);
-      draw(center, derecho);
+      draw(center, derecho, level - 1);
     }
   }
 

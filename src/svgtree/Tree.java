@@ -16,6 +16,8 @@ import svgtree.Text;
 import svgtree.Svg;
 import svgtree.Line;
 import svgtree.TagTree;
+import conjuntistas.arbol.avl.ArbolAVL;
+import conjuntistas.arbol.avl.NodoAVL;
 
 public class Tree {
 
@@ -24,11 +26,14 @@ public class Tree {
   private float diameter;
   private float half;
 
+  private ArbolAVL arbol;
   private Document document;
   private Element svg;
   private TagTree tagTree;
 
-  public Tree(int height, float radio) throws ParserConfigurationException {
+  public Tree(ArbolAVL arbol, float radio) throws ParserConfigurationException {
+    this.arbol = arbol;
+    int height = ((NodoAVL) arbol.getRaiz()).getAltura();
     this.height = height;
     this.radio = radio;
     this.diameter = 2 * radio;
@@ -52,8 +57,8 @@ public class Tree {
     Line.setStrokeWidth(half / 2);
   }
 
-  public Tree(int height) throws ParserConfigurationException {
-    this(height, 0.5f);
+  public Tree(ArbolAVL arbol, int height) throws ParserConfigurationException {
+    this(arbol, 0.5f);
   }
 
   public void drawTree() throws ParserConfigurationException {

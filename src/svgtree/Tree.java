@@ -85,7 +85,7 @@ public class Tree {
     this.svg.setAttribute("viewBox", viewBox);
   }
 
-  public void drawTree()
+  public void draw()
   throws ParserConfigurationException {
     this.initDocument();
     this.initElement();

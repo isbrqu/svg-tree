@@ -11,7 +11,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.lang.Math;
 
-import svgtree.Text;
 import svgtree.Svg;
 import svgtree.Line;
 import svgtree.TagTree;
@@ -60,8 +59,6 @@ public class Tree {
   public void initElement() {
     // Posible efecto secundario en PseudoTag.
     // Investigar: Cambiar document entre elementos distintos.
-    Text.setDocument(this.document);
-    Text.setFontSize(this.radio + this.half);
     Line.setDocument(this.document);
     Line.setStrokeWidth(this.half / 2);
   }
@@ -106,7 +103,15 @@ public class Tree {
     // crea el texto dentro del circulo
     Point textPoint = point.translateInY(this.half);
     String elemento = nodo.getElemento().toString();
-    Text text = new Text(textPoint, elemento);
+    Element text = this.document.createElement("text");
+    text.setTextContent(nodo.getElemento().toString());
+    text.setAttribute("x", Float.toString(textPoint.getX()));
+    text.setAttribute("y", Float.toString(textPoint.getY()));
+    text.setAttribute("fill", "#00");
+    text.setAttribute("font-size",
+        Float.toString(this.radio + this.half));
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("alignment-baseline", "middle");
     this.tagTree.appendChild(text);
     // children
     int height = nodo.getAltura();

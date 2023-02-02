@@ -12,7 +12,6 @@ import org.w3c.dom.Element;
 import java.lang.Math;
 
 import svgtree.Svg;
-import svgtree.Line;
 import svgtree.TagTree;
 import conjuntistas.arbol.bb.ArbolBinarioBase;
 import conjuntistas.arbol.bb.Nodo;
@@ -56,13 +55,6 @@ public class Tree {
     this.svg.appendChild(this.tagTree.getElement());
   }
 
-  public void initElement() {
-    // Posible efecto secundario en PseudoTag.
-    // Investigar: Cambiar document entre elementos distintos.
-    Line.setDocument(this.document);
-    Line.setStrokeWidth(this.half / 2);
-  }
-
   public void initViewBox(Point point, Nodo raiz) {
     // Establece los límites de vista del svg.
     // Cálcula el punto inferior derecho y hace un corrimiento
@@ -82,7 +74,6 @@ public class Tree {
   public void draw()
   throws ParserConfigurationException {
     this.initDocument();
-    this.initElement();
     NodoAVL raiz = (NodoAVL) this.arbol.getRaiz();
     int height = raiz.getAltura();
     float x = (float) Math.pow(2, height + 1) * this.radio;
@@ -125,7 +116,14 @@ public class Tree {
       center = point.bottomLeft(xshift, distance);
       start = point.bottomLeft(this.half, this.radio);
       end = center.bottomLeft(this.half, this.radio);
-      Line line1 = new Line(start, end);
+      Element line1 = document.createElement("line");
+      line1.setAttribute("x1", Float.toString(start.getX()));
+      line1.setAttribute("y1", Float.toString(start.getY()));
+      line1.setAttribute("x2", Float.toString(end.getX()));
+      line1.setAttribute("y2", Float.toString(end.getY()));
+      line1.setAttribute("stroke", "#fff");
+      line1.setAttribute("stroke-width",
+          Float.toString(this.half / 2));
       this.tagTree.appendChild(line1);
       draw(center, izquierdo, level - 1);
     }
@@ -135,7 +133,14 @@ public class Tree {
       center = point.bottomRight(xshift, distance);
       start = point.bottomRight(this.half, this.radio);
       end = center.bottomRight(this.half, this.radio);
-      Line line2 = new Line(start, end);
+      Element line2 = document.createElement("line");
+      line2.setAttribute("x1", Float.toString(start.getX()));
+      line2.setAttribute("y1", Float.toString(start.getY()));
+      line2.setAttribute("x2", Float.toString(end.getX()));
+      line2.setAttribute("y2", Float.toString(end.getY()));
+      line2.setAttribute("stroke", "#fff");
+      line2.setAttribute("stroke-width",
+          Float.toString(this.half / 2));
       this.tagTree.appendChild(line2);
       draw(center, derecho, level - 1);
     }

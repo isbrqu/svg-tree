@@ -15,5 +15,9 @@ public class TagTree extends PseudoTag {
   public void appendChild(PseudoTag pseudotag) {
     this.element.appendChild(pseudotag.getElement());
   }
+  
+  public void appendChild(Element child) {
+    this.element.appendChild(child);
+  }
 
 } 

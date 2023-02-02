@@ -11,8 +11,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.lang.Math;
 
-import svgtree.Svg;
-import svgtree.TagTree;
 import conjuntistas.arbol.bb.ArbolBinarioBase;
 import conjuntistas.arbol.bb.Nodo;
 import conjuntistas.arbol.avl.NodoAVL;
@@ -27,7 +25,7 @@ public class Tree {
   private ArbolBinarioBase arbol;
   private Document document;
   private Element svg;
-  private TagTree tagTree;
+  private Element group;
 
   public Tree(ArbolBinarioBase arbol, float radio)
   throws ParserConfigurationException {
@@ -49,10 +47,13 @@ public class Tree {
       .newInstance()
       .newDocumentBuilder()
       .newDocument();
-    this.svg = (new Svg(this.document)).create();
+    String URI = "http://www.w3.org/2000/svg";
+    this.svg = this.document.createElementNS(URI, "svg");
+    this.svg.setAttribute("style",
+        "background-color: rgb(42, 42, 42);");
     this.document.appendChild(this.svg);
-    this.tagTree = new TagTree(this.document);
-    this.svg.appendChild(this.tagTree.getElement());
+    this.group = this.document.createElement("g");
+    this.svg.appendChild(this.group);
   }
 
   public void initViewBox(Point point, Nodo raiz) {
@@ -90,7 +91,7 @@ public class Tree {
     circle.setAttribute("cy", Float.toString(point.getY()));
     circle.setAttribute("r", Float.toString(this.radio));
     circle.setAttribute("fill", "#fff");
-    this.tagTree.appendChild(circle);
+    this.group.appendChild(circle);
     // crea el texto dentro del circulo
     Point textPoint = point.translateInY(this.half);
     String elemento = nodo.getElemento().toString();
@@ -103,7 +104,7 @@ public class Tree {
         Float.toString(this.radio + this.half));
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("alignment-baseline", "middle");
-    this.tagTree.appendChild(text);
+    this.group.appendChild(text);
     // children
     int height = nodo.getAltura();
     if (height == 0) return;
@@ -124,7 +125,7 @@ public class Tree {
       line1.setAttribute("stroke", "#fff");
       line1.setAttribute("stroke-width",
           Float.toString(this.half / 2));
-      this.tagTree.appendChild(line1);
+      this.group.appendChild(line1);
       draw(center, izquierdo, level - 1);
     }
     // right node
@@ -141,7 +142,7 @@ public class Tree {
       line2.setAttribute("stroke", "#fff");
       line2.setAttribute("stroke-width",
           Float.toString(this.half / 2));
-      this.tagTree.appendChild(line2);
+      this.group.appendChild(line2);
       draw(center, derecho, level - 1);
     }
   }

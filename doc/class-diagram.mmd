@@ -1,0 +1,52 @@
+---
+title: svgtree
+---
+
+%%{ init: { "theme": "dark" } }%%
+
+classDiagram
+    direction LR
+        SvgTree --> Point
+        SvgTree --* Html
+        Element --* SvgTree
+        Document --* SvgTree
+        Point --> Utils
+        Document --* Html
+        Element "*" --* Html
+        class Html {
+            - name: String
+            - svgs: List~Element~
+            + Html(asdfsdaf)
+            + Html(String name)
+            + draw(ArbolBinarioBase arbol, String name)
+            + draw(ArbolBinarioBase arbol)
+            + save(String filename): void
+        }
+        class SvgTree {
+            - radio: float
+            - diameter: float
+            - half: float
+            - svg: Element
+            + Tree(ArbolBinarioBase arbol, float radio)
+            + Tree(ArbolBinarioBase arbol)
+            + getSvg(): Element
+            + initViewBox(Point point, Nodo raiz)
+            + draw(): void
+            + draw(Point point, int height): void
+        }
+        class Point {
+            - x: float
+            - y: float
+            + getX(): float
+            + getY(): float
+            + translate(float dx, float dy): Point
+            + translateInX(float distance): Point
+            + translateInY(float distance): Point
+            + bottomLeft(float margin, float distance): Point
+            + bottomRight(float margin, float distance): Point
+            + toString(float margin, float distance): String
+        }
+        class Utils {
+            + calculateY(float hypotenuse, float x1, float x2, float y2, int d): float
+            + calculateLeg(float hypotenuse, float leg): float
+        }

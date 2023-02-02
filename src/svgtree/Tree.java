@@ -81,7 +81,7 @@ public class Tree {
     float y = this.diameter;
     Point point = new Point(x, y);
     this.initViewBox(point, raiz);
-    draw(point, raiz, height);
+    this.draw(point, raiz, height);
   }
 
   private void draw(Point point, NodoAVL nodo, int level) {
@@ -143,7 +143,7 @@ public class Tree {
       line2.setAttribute("stroke-width",
           Float.toString(this.half / 2));
       this.group.appendChild(line2);
-      draw(center, derecho, level - 1);
+      this.draw(center, derecho, level - 1);
     }
   }
 

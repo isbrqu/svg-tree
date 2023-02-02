@@ -17,7 +17,6 @@ import conjuntistas.arbol.avl.NodoAVL;
 
 public class Tree {
 
-  private int height;
   private float radio;
   private float diameter;
   private float half;

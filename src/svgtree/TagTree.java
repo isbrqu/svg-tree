@@ -15,82 +15,48 @@ import conjuntistas.arbol.bb.ArbolBinarioBase;
 import conjuntistas.arbol.bb.Nodo;
 import conjuntistas.arbol.avl.NodoAVL;
 
-public class Tree {
+public class TagTree {
 
   private float radio;
   private float diameter;
   private float half;
 
-  private ArbolBinarioBase arbol;
   private Document document;
-  private Element svg;
-  private Element group;
+  private Element element;
 
-  public Tree(ArbolBinarioBase arbol, float radio)
-  throws ParserConfigurationException {
-    this.arbol = arbol;
+  public TagTree(Document document, float radio) {
+    this.document = document;
+    this.element = this.document.createElement("g");
+    this.setRadio(radio);
+  }
+
+  public TagTree(Document document) {
+    this(document, 0.5f);
+  }
+
+  public void setRadio(float radio) {
     this.radio = radio;
     this.diameter = 2 * radio;
     this.half = radio / 2;
   }
 
-  public Tree(ArbolBinarioBase arbol)
-  throws ParserConfigurationException {
-    this(arbol, 0.5f);
+  public Element getElement() {
+    return this.element;
   }
 
-  public void initDocument()
-  throws ParserConfigurationException {
-    // Tags and elements.
-    this.document = DocumentBuilderFactory
-      .newInstance()
-      .newDocumentBuilder()
-      .newDocument();
-    String URI = "http://www.w3.org/2000/svg";
-    this.svg = this.document.createElementNS(URI, "svg");
-    this.svg.setAttribute("style",
-        "background-color: rgb(42, 42, 42);");
-    this.document.appendChild(this.svg);
-    this.group = this.document.createElement("g");
-    this.svg.appendChild(this.group);
+  public void draw(Nodo nodo, Point point) {
+    NodoAVL raiz = (NodoAVL) nodo;
+    this.draw(raiz, point, raiz.getAltura());
   }
 
-  public void initViewBox(Point point, Nodo raiz) {
-    // Establece los límites de vista del svg.
-    // Cálcula el punto inferior derecho y hace un corrimiento
-    // a la derecha.
-    int height = ((NodoAVL) raiz).getAltura();
-    float power = (float) Math.pow(2, height);
-    float nextPower = 2 * power;
-    float xshift = (power - 1) * diameter;
-    float distance = (nextPower - 2) * diameter;
-    Point dim = point
-      .bottomRight(xshift, distance)
-      .translate(diameter, diameter);
-    String viewBox = "0 0 " + dim.getX() + " " + dim.getY();
-    this.svg.setAttribute("viewBox", viewBox);
-  }
-
-  public void draw()
-  throws ParserConfigurationException {
-    this.initDocument();
-    NodoAVL raiz = (NodoAVL) this.arbol.getRaiz();
-    int height = raiz.getAltura();
-    float x = (float) Math.pow(2, height + 1) * this.radio;
-    float y = this.diameter;
-    Point point = new Point(x, y);
-    this.initViewBox(point, raiz);
-    this.draw(point, raiz, height);
-  }
-
-  private void draw(Point point, NodoAVL nodo, int level) {
+  private void draw(NodoAVL nodo, Point point, int level) {
     // crea el circulo
     Element circle = this.document.createElement("circle");
     circle.setAttribute("cx", Float.toString(point.getX()));
     circle.setAttribute("cy", Float.toString(point.getY()));
     circle.setAttribute("r", Float.toString(this.radio));
     circle.setAttribute("fill", "#fff");
-    this.group.appendChild(circle);
+    this.element.appendChild(circle);
     // crea el texto dentro del circulo
     Point textPoint = point.translateInY(this.half);
     String elemento = nodo.getElemento().toString();
@@ -103,7 +69,7 @@ public class Tree {
         Float.toString(this.radio + this.half));
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("alignment-baseline", "middle");
-    this.group.appendChild(text);
+    this.element.appendChild(text);
     // children
     int height = nodo.getAltura();
     if (height == 0) return;
@@ -124,8 +90,8 @@ public class Tree {
       line1.setAttribute("stroke", "#fff");
       line1.setAttribute("stroke-width",
           Float.toString(this.half / 2));
-      this.group.appendChild(line1);
-      draw(center, izquierdo, level - 1);
+      this.element.appendChild(line1);
+      this.draw(izquierdo, center, level - 1);
     }
     // right node
     NodoAVL derecho = (NodoAVL) nodo.getDerecho();
@@ -141,8 +107,8 @@ public class Tree {
       line2.setAttribute("stroke", "#fff");
       line2.setAttribute("stroke-width",
           Float.toString(this.half / 2));
-      this.group.appendChild(line2);
-      this.draw(center, derecho, level - 1);
+      this.element.appendChild(line2);
+      this.draw(derecho, center, level - 1);
     }
   }
 

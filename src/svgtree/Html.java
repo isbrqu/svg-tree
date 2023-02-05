@@ -67,8 +67,8 @@ public class Html {
     StringBuilder rules = new StringBuilder();
     CSSStyle svg = new CSSStyle("svg");
     svg.addProperty("border-radius", "1%");
-    svg.addProperty("width", "400px");
-    svg.addProperty("height", "400px");
+    svg.addProperty("width", "500px");
+    svg.addProperty("height", "500px");
     svg.addProperty("background-color", "rgb(42, 42, 42)");
     rules.append(svg.toString());
     CSSStyle circle = new CSSStyle("circle");

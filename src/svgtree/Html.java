@@ -21,6 +21,7 @@ public class Html {
   private Element head;
   private Element body;
   private Element style;
+  private Element content;
 
   public Html() {
     try {
@@ -32,7 +33,10 @@ public class Html {
       this.head = this.document.createElement("head");
       this.style = this.document.createElement("style");
       this.body = this.document.createElement("body");
+      this.content = this.document.createElement("div");
+      this.content.setAttribute("class", "content");
       this.head.appendChild(style);
+      this.body.appendChild(content);
       this.html.appendChild(head);
       this.html.appendChild(body);
       this.document.appendChild(html);
@@ -48,15 +52,17 @@ public class Html {
 
   public void draw(ArbolBinarioBase arbol, String text) {
     this.initCss();
-    SvgTree svgTree = new SvgTree(this.document);
-    svgTree.draw(arbol);
-    Element svg = svgTree.getElement();
+    Element div = this.document.createElement("div");
     if (text != null) {
       Element h2 = this.document.createElement("h2");
       h2.setTextContent(text);
-      this.body.appendChild(h2);
+      div.appendChild(h2);
     }
-    this.body.appendChild(svg);
+    SvgTree svgTree = new SvgTree(this.document);
+    svgTree.draw(arbol);
+    Element svg = svgTree.getElement();
+    div.appendChild(svg);
+    this.content.appendChild(div);
   }
 
   public void draw(ArbolBinarioBase arbol) {
@@ -65,6 +71,14 @@ public class Html {
 
   public void initCss() {
     StringBuilder rules = new StringBuilder();
+    CSSStyle content = new CSSStyle(".content");
+    content.addProperty("display", "flex");
+    content.addProperty("justify-content", "center");
+    rules.append(content.toString());
+    CSSStyle div = new CSSStyle("div");
+    div.addProperty("margin", "0 1px");
+    div.addProperty("text-align", "center");
+    rules.append(div.toString());
     CSSStyle svg = new CSSStyle("svg");
     svg.addProperty("border-radius", "1%");
     svg.addProperty("width", "500px");

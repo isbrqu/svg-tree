@@ -55,7 +55,6 @@ public class TagTree {
     circle.setAttribute("cx", Float.toString(point.getX()));
     circle.setAttribute("cy", Float.toString(point.getY()));
     circle.setAttribute("r", Float.toString(this.radio));
-    circle.setAttribute("fill", "#fff");
     this.element.appendChild(circle);
     // crea el texto dentro del circulo
     Point textPoint = point.translateInY(this.half);
@@ -64,11 +63,8 @@ public class TagTree {
     text.setTextContent(nodo.getElemento().toString());
     text.setAttribute("x", Float.toString(textPoint.getX()));
     text.setAttribute("y", Float.toString(textPoint.getY()));
-    text.setAttribute("fill", "#00");
     text.setAttribute("font-size",
         Float.toString(this.radio + this.half));
-    text.setAttribute("text-anchor", "middle");
-    text.setAttribute("alignment-baseline", "middle");
     this.element.appendChild(text);
     // children
     int height = nodo.getAltura();
@@ -87,7 +83,6 @@ public class TagTree {
       line1.setAttribute("y1", Float.toString(start.getY()));
       line1.setAttribute("x2", Float.toString(end.getX()));
       line1.setAttribute("y2", Float.toString(end.getY()));
-      line1.setAttribute("stroke", "#fff");
       line1.setAttribute("stroke-width",
           Float.toString(this.half / 2));
       this.element.appendChild(line1);
@@ -104,7 +99,6 @@ public class TagTree {
       line2.setAttribute("y1", Float.toString(start.getY()));
       line2.setAttribute("x2", Float.toString(end.getX()));
       line2.setAttribute("y2", Float.toString(end.getY()));
-      line2.setAttribute("stroke", "#fff");
       line2.setAttribute("stroke-width",
           Float.toString(this.half / 2));
       this.element.appendChild(line2);

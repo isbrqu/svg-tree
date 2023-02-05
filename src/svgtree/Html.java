@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import conjuntistas.arbol.bb.ArbolBinarioBase;
+import svgtree.CSSStyle;
 
 public class Html {
 
@@ -19,6 +20,7 @@ public class Html {
   private Element html;
   private Element head;
   private Element body;
+  private Element style;
 
   public Html() {
     try {
@@ -28,7 +30,9 @@ public class Html {
         .newDocument();
       this.html = this.document.createElementNS(URI, "html");
       this.head = this.document.createElement("head");
+      this.style = this.document.createElement("style");
       this.body = this.document.createElement("body");
+      this.head.appendChild(style);
       this.html.appendChild(head);
       this.html.appendChild(body);
       this.document.appendChild(html);
@@ -43,6 +47,7 @@ public class Html {
   }
 
   public void draw(ArbolBinarioBase arbol, String text) {
+    this.initCss();
     SvgTree svgTree = new SvgTree(this.document);
     svgTree.draw(arbol);
     Element svg = svgTree.getElement();
@@ -56,6 +61,28 @@ public class Html {
 
   public void draw(ArbolBinarioBase arbol) {
     this.draw(arbol, null);
+  }
+
+  public void initCss() {
+    StringBuilder rules = new StringBuilder();
+    CSSStyle svg = new CSSStyle("svg");
+    svg.addProperty("border-radius", "1%");
+    svg.addProperty("width", "400px");
+    svg.addProperty("height", "400px");
+    svg.addProperty("background-color", "rgb(42, 42, 42)");
+    rules.append(svg.toString());
+    CSSStyle circle = new CSSStyle("circle");
+    circle.addProperty("fill", "#ffffff");
+    rules.append(circle.toString());
+    CSSStyle line = new CSSStyle("line");
+    line.addProperty("stroke", "#fff");
+    rules.append(line.toString());
+    CSSStyle text = new CSSStyle("text");
+    text.addProperty("fill", "#000000");
+    text.addProperty("text-anchor", "middle");
+    text.addProperty("alignment-baseline", "middle");
+    rules.append(text.toString());
+    this.style.setTextContent(rules.toString());
   }
 
   public void save(String filename) {

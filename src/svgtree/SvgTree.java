@@ -76,6 +76,7 @@ public class SvgTree {
       .translate(DIAMETER, DIAMETER);
     StringBuilder viewBox = new StringBuilder();
     viewBox.append("0 ");
+    viewBox.append("0 ");
     viewBox.append(dim.getX() + " ");
     viewBox.append(dim.getY());
     this.element.setAttribute("viewBox", viewBox.toString());

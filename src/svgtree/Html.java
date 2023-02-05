@@ -17,6 +17,8 @@ public class Html {
   private String name;
   private Document document;
   private Element html;
+  private Element head;
+  private Element body;
 
   public Html() {
     try {
@@ -25,6 +27,11 @@ public class Html {
         .newDocumentBuilder()
         .newDocument();
       this.html = this.document.createElementNS(URI, "html");
+      this.head = this.document.createElement("head");
+      this.body = this.document.createElement("body");
+      this.html.appendChild(head);
+      this.html.appendChild(body);
+      this.document.appendChild(html);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -42,9 +49,9 @@ public class Html {
     if (text != null) {
       Element h2 = this.document.createElement("h2");
       h2.setTextContent(text);
-      this.html.appendChild(h2);
+      this.body.appendChild(h2);
     }
-    this.html.appendChild(svg);
+    this.body.appendChild(svg);
   }
 
   public void draw(ArbolBinarioBase arbol) {
@@ -53,7 +60,7 @@ public class Html {
 
   public void save(String filename) {
     try {
-      DOMSource source = new DOMSource(document);
+      DOMSource source = new DOMSource(this.document);
       Transformer transformer = TransformerFactory
         .newInstance()
         .newTransformer();

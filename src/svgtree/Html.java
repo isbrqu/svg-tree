@@ -15,7 +15,6 @@ public class Html {
 
   private static String URI = "http://www.w3.org/1999/xhtml";
 
-  private String name;
   private Document document;
   private Element html;
   private Element head;

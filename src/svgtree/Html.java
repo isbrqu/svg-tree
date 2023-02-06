@@ -39,11 +39,12 @@ public class Html {
       this.html.appendChild(body);
       // head
       this.style = this.document.createElement("style");
+      this.style.setTextContent(generateCssRules());
       this.head.appendChild(style);
+      // body
       this.content = this.document.createElement("div");
       this.content.setAttribute("class", "content");
       this.body.appendChild(content);
-      this.initCss();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -75,7 +76,7 @@ public class Html {
     this.draw(arbol, null);
   }
 
-  public void initCss() {
+  public static String generateCssRules() {
     StringBuilder rules = new StringBuilder();
     CSSStyle content = new CSSStyle(".content");
     content.addProperty("display", "flex");
@@ -103,7 +104,7 @@ public class Html {
     text.addProperty("text-anchor", "middle");
     text.addProperty("alignment-baseline", "middle");
     rules.append(text.toString());
-    this.style.setTextContent(rules.toString());
+    return rules.toString();
   }
 
   public void save(String filename) {

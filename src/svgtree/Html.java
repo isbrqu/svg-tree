@@ -29,17 +29,20 @@ public class Html {
         .newInstance()
         .newDocumentBuilder()
         .newDocument();
+      // document
       this.html = this.document.createElementNS(URI, "html");
+      this.document.appendChild(html);
+      // html
       this.head = this.document.createElement("head");
-      this.style = this.document.createElement("style");
+      this.html.appendChild(head);
       this.body = this.document.createElement("body");
+      this.html.appendChild(body);
+      // head
+      this.style = this.document.createElement("style");
+      this.head.appendChild(style);
       this.content = this.document.createElement("div");
       this.content.setAttribute("class", "content");
-      this.head.appendChild(style);
       this.body.appendChild(content);
-      this.html.appendChild(head);
-      this.html.appendChild(body);
-      this.document.appendChild(html);
       this.initCss();
     } catch (Exception e) {
       e.printStackTrace();

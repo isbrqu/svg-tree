@@ -40,6 +40,7 @@ public class Html {
       this.html.appendChild(head);
       this.html.appendChild(body);
       this.document.appendChild(html);
+      this.initCss();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -51,8 +52,8 @@ public class Html {
   }
 
   public void draw(ArbolBinarioBase arbol, String text) {
-    this.initCss();
     Element div = this.document.createElement("div");
+    div.setAttribute("class", "item");
     if (text != null) {
       Element h2 = this.document.createElement("h2");
       h2.setTextContent(text);
@@ -73,16 +74,17 @@ public class Html {
     StringBuilder rules = new StringBuilder();
     CSSStyle content = new CSSStyle(".content");
     content.addProperty("display", "flex");
-    content.addProperty("justify-content", "center");
+    content.addProperty("flex-flow", "row wrap");
+    content.addProperty("gap", "10px");
+    content.addProperty("justify-content", "space-evenly");
     rules.append(content.toString());
-    CSSStyle div = new CSSStyle("div");
-    div.addProperty("margin", "0 1px");
-    div.addProperty("text-align", "center");
-    rules.append(div.toString());
+    CSSStyle hx = new CSSStyle("h1, h2");
+    hx.addProperty("text-align", "center");
+    rules.append(hx.toString());
     CSSStyle svg = new CSSStyle("svg");
     svg.addProperty("border-radius", "1%");
-    svg.addProperty("width", "500px");
-    svg.addProperty("height", "500px");
+    svg.addProperty("width", "400px");
+    svg.addProperty("height", "400px");
     svg.addProperty("background-color", "rgb(42, 42, 42)");
     rules.append(svg.toString());
     CSSStyle circle = new CSSStyle("circle");

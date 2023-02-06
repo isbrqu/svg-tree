@@ -46,9 +46,11 @@ public class Html {
     }
   }
 
-  public Html(String name) {
+  public Html(String text) {
     this();
-    this.name = name;
+    Element h1 = this.document.createElement("h1");
+    h1.setTextContent(text);
+    this.body.insertBefore(h1, this.content);
   }
 
   public void draw(ArbolBinarioBase arbol, String text) {

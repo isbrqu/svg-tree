@@ -51,15 +51,17 @@ public class SvgTree {
   }
 
   public void draw(Nodo raiz) {
-    int height = ((NodoAVL) raiz).getAltura();
-    float x = (float) Math.pow(2, height + 1) * RADIO;
-    float y = DIAMETER;
-    Point point = new Point(x, y);
-    this.setViewBox(height, point);
-    // generate tree
     TagTree tree = new TagTree(this.document);
-    tree.setRadio(RADIO);
-    tree.draw(raiz, point);
+    if (raiz != null) {
+      int height = ((NodoAVL) raiz).getAltura();
+      float x = (float) Math.pow(2, height + 1) * RADIO;
+      float y = DIAMETER;
+      Point point = new Point(x, y);
+      this.setViewBox(height, point);
+      // generate tree
+      tree.setRadio(RADIO);
+      tree.draw(raiz, point);
+    }
     Element group = tree.getElement();
     while (this.element.hasChildNodes())
       this.element.removeChild(this.element.getFirstChild());
